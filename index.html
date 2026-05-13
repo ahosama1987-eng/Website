@@ -665,4 +665,47 @@ function calcCurrency() {
 renderFAQ();
 </script>
 </body>
+  <section class="tool-card" id="loan-calculator">
+  <h2>💰 Loan Calculator</h2>
+
+  <input type="number" id="loanAmount" placeholder="Loan Amount">
+  <input type="number" id="loanInterest" placeholder="Annual Interest %">
+  <input type="number" id="loanYears" placeholder="Loan Years">
+
+  <button onclick="calculateLoan()">Calculate</button>
+
+  <div id="loanResult"></div>
+  </section>
+  <section class="tool-card" id="savings-calculator">
+  <h2>🏦 Savings Calculator</h2>
+
+  <input type="number" id="initialSavings" placeholder="Initial Amount">
+  <input type="number" id="monthlyContribution" placeholder="Monthly Contribution">
+  <input type="number" id="savingsInterest" placeholder="Annual Interest %">
+  <input type="number" id="savingsYears" placeholder="Years">
+
+  <button onclick="calculateSavings()">Calculate</button>
+
+  <div id="savingsResult"></div>
+  </section>
+  <section class="tool-card" id="salary-calculator">
+  <h2>💼 Salary Calculator</h2>
+
+  <input type="number" id="monthlySalary" placeholder="Monthly Salary">
+  <input type="number" id="taxRate" placeholder="Tax %">
+
+  <button onclick="calculateSalary()">Calculate</button>
+
+  <div id="salaryResult"></div>
+  </section>
+  <section class="tool-card" id="profit-margin-calculator">
+  <h2>📈 Profit Margin Calculator</h2>
+
+  <input type="number" id="costPrice" placeholder="Cost Price">
+  <input type="number" id="sellingPrice" placeholder="Selling Price">
+
+  <button onclick="calculateProfitMargin()">Calculate</button>
+
+  <div id="profitResult"></div>
+  </section>
 </html>
