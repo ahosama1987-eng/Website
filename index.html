@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Free calculators: age, BMI, hourly rate, invoice, savings, profit, currency. حاسبات مجانية: العمر، مؤشر كتلة الجسم، الأجر بالساعة."/>
+<title>FreeCalc – Free Finance & Health Tools</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg-primary:    #000000;
+    --bg-secondary:  #1c1c1e;
+    --bg-tertiary:   #2c2c2e;
+    --bg-elevated:   #3a3a3c;
+    --label-primary:     #ffffff;
+    --label-secondary:   rgba(235,235,245,0.60);
+    --label-tertiary:    rgba(235,235,245,0.30);
+    --accent-blue:   #0a84ff;
+    --accent-green:  #30d158;
+    --accent-orange: #ff9f0a;
+    --accent-red:    #ff453a;
+    --accent-purple: #bf5af2;
+    --accent-teal:   #5ac8fa;
+    --separator:     rgba(84,84,88,0.65);
+    --radius-sm: 10px; --radius-md: 16px; --radius-lg: 20px; --radius-xl: 28px;
+    --font-en: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+    --font-ar: 'Cairo', 'Segoe UI', Tahoma, Arial, sans-serif;
+    --font: var(--font-en);
+  }
+  html[lang="ar"] { --font: var(--font-ar); }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font); background: var(--bg-primary); color: var(--label-primary); min-height: 100vh; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+
+  /* NAV */
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(28,28,30,0.72); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid var(--separator); padding: 0 24px; height: 52px; display: flex; align-items: center; justify-content: space-between; }
+  .nav-brand { font-size: 17px; font-weight: 700; color: var(--label-primary); text-decoration: none; }
+  .nav-links  { display: flex; gap: 24px; list-style: none; }
+  .nav-links a { font-size: 14px; color: var(--label-secondary); text-decoration: none; transition: color .15s; }
+  .nav-links a:hover { color: var(--label-primary); }
+  .lang-btn { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--accent-blue); background: rgba(10,132,255,0.12); border: 1px solid rgba(10,132,255,0.25); border-radius: 100px; padding: 5px 14px; cursor: pointer; transition: all .15s; font-family: var(--font-ar); white-space: nowrap; }
+  .lang-btn:hover { background: rgba(10,132,255,0.2); }
+
+  /* HERO */
+  .hero { text-align: center; padding: 80px 24px 60px; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(10,132,255,0.15) 0%, transparent 70%); pointer-events: none; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--accent-blue); background: rgba(10,132,255,0.12); border: 1px solid rgba(10,132,255,0.25); border-radius: 100px; padding: 5px 14px; margin-bottom: 24px; }
+  html[lang="ar"] .hero-badge { font-size: 13px; }
+  .hero h1 { font-size: clamp(30px,6vw,54px); font-weight: 700; line-height: 1.1; letter-spacing: -1px; margin-bottom: 18px; }
+  html[lang="ar"] .hero h1 { letter-spacing: 0; line-height: 1.3; }
+  .hero h1 em { font-style: normal; background: linear-gradient(90deg,var(--accent-blue),var(--accent-teal)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero p { font-size: 17px; color: var(--label-secondary); max-width: 520px; margin: 0 auto 36px; line-height: 1.6; }
+  .hero-quick-links { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .quick-link { font-size: 13px; font-weight: 500; color: var(--label-secondary); background: var(--bg-secondary); border: 1px solid var(--separator); border-radius: 100px; padding: 7px 16px; text-decoration: none; transition: all .15s; }
+  .quick-link:hover { background: var(--bg-tertiary); color: var(--label-primary); }
+
+  /* STAT STRIP */
+  .stat-strip { display: flex; justify-content: center; border-top: 1px solid var(--separator); border-bottom: 1px solid var(--separator); background: var(--bg-secondary); margin: 40px 0 0; }
+  .stat-item { flex: 1; max-width: 180px; text-align: center; padding: 20px 16px; border-right: 1px solid var(--separator); }
+  html[dir="rtl"] .stat-item { border-right: none; border-left: 1px solid var(--separator); }
+  .stat-item:last-child { border: none !important; }
+  .stat-num { font-size: 26px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
+  .stat-label { font-size: 11px; font-weight: 500; color: var(--label-tertiary); text-transform: uppercase; letter-spacing: 0.5px; }
+  html[lang="ar"] .stat-label { text-transform: none; letter-spacing: 0; font-size: 12px; }
+
+  /* SECTION HEADER */
+  .section-header { text-align: center; padding: 60px 24px 28px; }
+  .section-tag { font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--accent-blue); margin-bottom: 10px; }
+  html[lang="ar"] .section-tag { text-transform: none; letter-spacing: 0; font-size: 13px; }
+  .section-header h2 { font-size: clamp(22px,4vw,32px); font-weight: 700; letter-spacing: -0.6px; margin-bottom: 10px; }
+  html[lang="ar"] .section-header h2 { letter-spacing: 0; }
+  .section-header p { font-size: 15px; color: var(--label-secondary); max-width: 460px; margin: 0 auto; line-height: 1.55; }
+
+  /* DIVIDER */
+  .divider-label { display: flex; align-items: center; gap: 14px; padding: 0 24px; margin: 20px auto 12px; max-width: 1100px; }
+  .divider-label::before,.divider-label::after { content: ''; flex: 1; height: 1px; background: var(--separator); }
+  .divider-label span { font-size: 11px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: var(--label-tertiary); white-space: nowrap; }
+  html[lang="ar"] .divider-label span { text-transform: none; letter-spacing: 0; font-size: 12px; }
+
+  /* GRID */
+  .tools-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(300px,1fr)); gap: 16px; padding: 0 24px 24px; max-width: 1100px; margin: 0 auto; }
+
+  /* CARD */
+  .calc-card { background: var(--bg-secondary); border: 1px solid var(--separator); border-radius: var(--radius-xl); padding: 28px; transition: transform .2s,box-shadow .2s; position: relative; overflow: hidden; }
+  .calc-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg,transparent,rgba(255,255,255,0.08),transparent); }
+  .calc-card:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,0,0,0.5); }
+  .card-icon { width: 44px; height: 44px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 16px; }
+  .icon-blue   { background: rgba(10,132,255,0.15); }
+  .icon-green  { background: rgba(48,209,88,0.15); }
+  .icon-orange { background: rgba(255,159,10,0.15); }
+  .icon-teal   { background: rgba(90,200,250,0.15); }
+  .icon-red    { background: rgba(255,69,58,0.15); }
+  .icon-purple { background: rgba(191,90,242,0.15); }
+  .calc-card h3 { font-size: 17px; font-weight: 600; color: var(--label-primary); margin-bottom: 6px; }
+  .card-desc { font-size: 13px; color: var(--label-secondary); line-height: 1.55; margin-bottom: 22px; }
+
+  /* FORM */
+  .form-group { margin-bottom: 14px; }
+  .form-group label { display: block; font-size: 12px; font-weight: 500; color: var(--label-secondary); margin-bottom: 6px; }
+  html[lang="ar"] .form-group label { font-size: 13px; }
+  .form-group input,.form-group select { width: 100%; background: var(--bg-tertiary); border: 1px solid var(--separator); border-radius: var(--radius-sm); color: var(--label-primary); font-family: var(--font); font-size: 15px; padding: 10px 14px; outline: none; transition: border-color .15s,background .15s; -webkit-appearance: none; }
+  .form-group input:focus,.form-group select:focus { border-color: var(--accent-blue); background: var(--bg-elevated); }
+  .form-group select option { background: var(--bg-secondary); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  .unit-toggle { display: flex; background: var(--bg-tertiary); border: 1px solid var(--separator); border-radius: var(--radius-sm); padding: 3px; margin-bottom: 14px; }
+  .unit-btn { flex: 1; font-size: 13px; font-weight: 500; padding: 7px; border: none; background: transparent; color: var(--label-secondary); border-radius: 8px; cursor: pointer; transition: all .15s; font-family: var(--font); }
+  .unit-btn.active { background: var(--bg-elevated); color: var(--label-primary); box-shadow: 0 1px 3px rgba(0,0,0,0.4); }
+
+  .radio-group { display: flex; gap: 10px; margin-bottom: 14px; }
+  .radio-opt { flex: 1; display: flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 500; color: var(--label-secondary); background: var(--bg-tertiary); border: 1px solid var(--separator); border-radius: var(--radius-sm); padding: 8px 12px; cursor: pointer; transition: all .15s; }
+  .radio-opt input[type=radio] { accent-color: var(--accent-blue); flex-shrink: 0; }
+  .radio-opt:has(input:checked) { border-color: var(--accent-blue); color: var(--accent-blue); background: rgba(10,132,255,0.08); }
+
+  .calc-btn { width: 100%; background: var(--accent-blue); color: #fff; font-family: var(--font); font-size: 15px; font-weight: 600; border: none; border-radius: var(--radius-sm); padding: 12px; cursor: pointer; transition: filter .15s,transform .1s; margin-top: 4px; }
+  .calc-btn:hover { filter: brightness(1.1); }
+  .calc-btn:active { transform: scale(0.98); }
+
+  /* RESULT */
+  .result-box { margin-top: 16px; background: var(--bg-tertiary); border: 1px solid var(--separator); border-radius: var(--radius-sm); padding: 16px; display: none; animation: fadeIn .25s ease; }
+  .result-box.visible { display: block; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
+  .result-main { font-size: 28px; font-weight: 700; color: var(--label-primary); line-height: 1; margin-bottom: 4px; }
+  .result-label { font-size: 12px; font-weight: 500; color: var(--label-secondary); text-transform: uppercase; letter-spacing: 0.4px; }
+  html[lang="ar"] .result-label { text-transform: none; letter-spacing: 0; font-size: 13px; }
+  .result-sub { font-size: 13px; color: var(--label-secondary); margin-top: 8px; line-height: 1.5; }
+  .result-badge { display: inline-block; font-size: 12px; font-weight: 600; border-radius: 100px; padding: 3px 12px; margin-top: 8px; }
+  .badge-green  { background: rgba(48,209,88,0.15);  color: var(--accent-green); }
+  .badge-orange { background: rgba(255,159,10,0.15); color: var(--accent-orange); }
+  .badge-red    { background: rgba(255,69,58,0.15);  color: var(--accent-red); }
+  .badge-blue   { background: rgba(10,132,255,0.15); color: var(--accent-blue); }
+  .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+  .result-cell { background: var(--bg-secondary); border-radius: 10px; padding: 12px; }
+  .result-cell .val { font-size: 18px; font-weight: 700; color: var(--label-primary); }
+  .result-cell .lbl { font-size: 11px; color: var(--label-tertiary); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.4px; }
+  html[lang="ar"] .result-cell .lbl { text-transform: none; letter-spacing: 0; font-size: 12px; }
+
+  .bmi-meter { margin-top: 12px; height: 8px; border-radius: 100px; background: linear-gradient(90deg,#5ac8fa 0%,#30d158 25%,#ff9f0a 55%,#ff453a 80%); position: relative; }
+  .bmi-needle { position: absolute; top: -4px; width: 4px; height: 16px; background: #fff; border-radius: 2px; box-shadow: 0 0 6px rgba(0,0,0,0.6); transform: translateX(-50%); transition: left .5s cubic-bezier(0.34,1.56,0.64,1); }
+
+  /* FEATURES */
+  .features { padding: 60px 24px; max-width: 1100px; margin: 0 auto; }
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(220px,1fr)); gap: 16px; margin-top: 32px; }
+  .feature-card { background: var(--bg-secondary); border: 1px solid var(--separator); border-radius: var(--radius-lg); padding: 24px; }
+  .feature-icon { font-size: 26px; margin-bottom: 12px; }
+  .feature-card h4 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+  .feature-card p  { font-size: 13px; color: var(--label-secondary); line-height: 1.5; }
+
+  /* FAQ */
+  .faq { padding: 20px 24px 60px; max-width: 720px; margin: 0 auto; }
+  .faq-item { border-bottom: 1px solid var(--separator); padding: 18px 0; }
+  .faq-q { font-size: 15px; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+  .faq-q::after { content: '+'; font-size: 20px; color: var(--label-tertiary); flex-shrink: 0; transition: transform .2s; }
+  .faq-item.open .faq-q::after { transform: rotate(45deg); }
+  .faq-a { font-size: 14px; color: var(--label-secondary); line-height: 1.6; max-height: 0; overflow: hidden; transition: max-height .3s ease,padding .3s; }
+  .faq-item.open .faq-a { max-height: 200px; padding-top: 12px; }
+
+  /* FOOTER */
+  footer { border-top: 1px solid var(--separator); padding: 32px 24px; text-align: center; }
+  .footer-links { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-bottom: 16px; }
+  .footer-links a { font-size: 13px; color: var(--label-secondary); text-decoration: none; }
+  .footer-links a:hover { color: var(--label-primary); }
+  footer p { font-size: 12px; color: var(--label-tertiary); line-height: 1.6; }
+
+  @media(max-width:600px){
+    .form-row { grid-template-columns:1fr; }
+    .nav-links { display:none; }
+    .stat-item { max-width:90px; }
+    .stat-num  { font-size:20px; }
+    .stat-label { font-size:9px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-brand">FreeCalc</a>
+  <ul class="nav-links">
+    <li><a href="#tools"    data-i18n="nav_tools">Tools</a></li>
+    <li><a href="#features" data-i18n="nav_features">Features</a></li>
+    <li><a href="#faq"      data-i18n="nav_faq">FAQ</a></li>
+    <li><a href="#about"    data-i18n="nav_about">About</a></li>
+  </ul>
+  <button class="lang-btn" onclick="toggleLang()" id="lang-toggle">🌐 العربية</button>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge" data-i18n="hero_badge">✦ Free · No Signup · Instant Results</div>
+  <h1 data-i18n-html="hero_h1">Tools Built for <em>Smarter Decisions</em></h1>
+  <p data-i18n="hero_p">Seven essential calculators — health, finance, and everything in between. Free forever, no account needed.</p>
+  <div class="hero-quick-links">
+    <a class="quick-link" href="#age">🎂 <span data-i18n="ql_age">Age</span></a>
+    <a class="quick-link" href="#bmi">⚖️ <span data-i18n="ql_bmi">BMI</span></a>
+    <a class="quick-link" href="#hourly">💰 <span data-i18n="ql_hourly">Hourly Rate</span></a>
+    <a class="quick-link" href="#invoice">🧾 <span data-i18n="ql_invoice">Invoice</span></a>
+    <a class="quick-link" href="#savings">🎯 <span data-i18n="ql_savings">Savings</span></a>
+    <a class="quick-link" href="#margin">📈 <span data-i18n="ql_margin">Profit</span></a>
+    <a class="quick-link" href="#currency">💱 <span data-i18n="ql_currency">Currency</span></a>
+  </div>
+  <div class="stat-strip">
+    <div class="stat-item"><div class="stat-num">7</div><div class="stat-label" data-i18n="stat_calcs">Calculators</div></div>
+    <div class="stat-item"><div class="stat-num">$0</div><div class="stat-label" data-i18n="stat_free">Forever Free</div></div>
+    <div class="stat-item"><div class="stat-num">&lt;3s</div><div class="stat-label" data-i18n="stat_speed">To Your Answer</div></div>
+    <div class="stat-item"><div class="stat-num">🔒</div><div class="stat-label" data-i18n="stat_private">100% Private</div></div>
+  </div>
+</section>
+
+<section id="tools">
+  <div class="section-header">
+    <div class="section-tag" data-i18n="tools_tag">The Toolkit</div>
+    <h2 data-i18n="tools_h2">7 Calculators You'll Actually Use</h2>
+    <p data-i18n="tools_p">Built for people who want clear, instant answers — no bloat, no logins.</p>
+  </div>
+
+  <!-- HEALTH FIRST -->
+  <div class="divider-label"><span data-i18n="div_health">Health Tools</span></div>
+  <div class="tools-grid">
+
+    <!-- AGE -->
+    <div class="calc-card" id="age">
+      <div class="card-icon icon-purple">🎂</div>
+      <h3 data-i18n="age_title">Age Calculator</h3>
+      <p class="card-desc" data-i18n="age_desc">Find your exact age in years, months, and days — useful for forms, milestones, and curiosity.</p>
+      <div class="form-group"><label data-i18n="age_dob">Date of Birth</label><input type="date" id="age-dob" max=""/></div>
+      <div class="form-group"><label data-i18n="age_asof">Calculate Age As Of</label><input type="date" id="age-as-of"/></div>
+      <button class="calc-btn" onclick="calcAge()" data-i18n="age_btn">Calculate Age →</button>
+      <div class="result-box" id="age-result">
+        <div class="result-main" id="age-years">—</div>
+        <div class="result-label" data-i18n="age_rl_years">Years Old</div>
+        <div class="result-grid">
+          <div class="result-cell"><div class="val" id="age-months">—</div><div class="lbl" data-i18n="age_rl_months">Total Months</div></div>
+          <div class="result-cell"><div class="val" id="age-days">—</div><div class="lbl" data-i18n="age_rl_days">Total Days</div></div>
+        </div>
+        <div class="result-sub" id="age-detail"></div>
+      </div>
+    </div>
+
+    <!-- BMI -->
+    <div class="calc-card" id="bmi">
+      <div class="card-icon icon-green">⚖️</div>
+      <h3 data-i18n="bmi_title">BMI Calculator</h3>
+      <p class="card-desc" data-i18n="bmi_desc">Calculate your Body Mass Index instantly and see which weight category you fall into.</p>
+      <div class="unit-toggle">
+        <button class="unit-btn active" id="bmi-metric-btn" onclick="setBmiUnit('metric')" data-i18n="bmi_metric">Metric (kg / cm)</button>
+        <button class="unit-btn" id="bmi-imperial-btn" onclick="setBmiUnit('imperial')" data-i18n="bmi_imperial">Imperial (lb / in)</button>
+      </div>
+      <div id="bmi-metric-fields">
+        <div class="form-row">
+          <div class="form-group"><label data-i18n="bmi_weight_kg">Weight (kg)</label><input type="number" id="bmi-kg" placeholder="70" min="1"/></div>
+          <div class="form-group"><label data-i18n="bmi_height_cm">Height (cm)</label><input type="number" id="bmi-cm" placeholder="170" min="50"/></div>
+        </div>
+      </div>
+      <div id="bmi-imperial-fields" style="display:none">
+        <div class="form-row">
+          <div class="form-group"><label data-i18n="bmi_weight_lb">Weight (lbs)</label><input type="number" id="bmi-lb" placeholder="154" min="1"/></div>
+          <div class="form-group"><label data-i18n="bmi_height_in">Height (inches)</label><input type="number" id="bmi-in" placeholder="67" min="20"/></div>
+        </div>
+      </div>
+      <button class="calc-btn" onclick="calcBmi()" data-i18n="bmi_btn">Calculate BMI →</button>
+      <div class="result-box" id="bmi-result">
+        <div class="result-main" id="bmi-value">—</div>
+        <div class="result-label" data-i18n="bmi_rl">Body Mass Index</div>
+        <div class="bmi-meter"><div class="bmi-needle" id="bmi-needle" style="left:0%"></div></div>
+        <div style="display:flex;justify-content:space-between;margin-top:4px">
+          <span style="font-size:10px;color:var(--label-tertiary)" data-i18n="bmi_cat1">Underweight</span>
+          <span style="font-size:10px;color:var(--label-tertiary)" data-i18n="bmi_cat2">Normal</span>
+          <span style="font-size:10px;color:var(--label-tertiary)" data-i18n="bmi_cat3">Over</span>
+          <span style="font-size:10px;color:var(--label-tertiary)" data-i18n="bmi_cat4">Obese</span>
+        </div>
+        <div class="result-sub" id="bmi-detail"></div>
+        <span class="result-badge" id="bmi-badge"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FINANCE -->
+  <div class="divider-label" style="margin-top:28px"><span data-i18n="div_finance">Finance Tools</span></div>
+  <div class="tools-grid">
+
+    <!-- HOURLY -->
+    <div class="calc-card" id="hourly">
+      <div class="card-icon icon-orange">💰</div>
+      <h3 data-i18n="hr_title">Freelance Hourly Rate</h3>
+      <p class="card-desc" data-i18n="hr_desc">Calculate what you need to charge per hour to hit your income goal after expenses and taxes.</p>
+      <div class="form-group"><label data-i18n="hr_income">Annual Income Target ($)</label><input type="number" id="hr-income" placeholder="80000"/></div>
+      <div class="form-row">
+        <div class="form-group"><label data-i18n="hr_hours">Billable Hours / Week</label><input type="number" id="hr-hours" placeholder="30"/></div>
+        <div class="form-group"><label data-i18n="hr_vacation">Vacation Weeks / Year</label><input type="number" id="hr-vacation" placeholder="4"/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label data-i18n="hr_expenses">Business Expenses ($)</label><input type="number" id="hr-expenses" placeholder="5000"/></div>
+        <div class="form-group"><label data-i18n="hr_tax">Tax Rate (%)</label><input type="number" id="hr-tax" placeholder="25"/></div>
+      </div>
+      <button class="calc-btn" onclick="calcHourly()" data-i18n="hr_btn">Calculate My Rate →</button>
+      <div class="result-box" id="hr-result">
+        <div class="result-main" id="hr-rate">—</div>
+        <div class="result-label" data-i18n="hr_rl">Minimum Hourly Rate</div>
+        <div class="result-sub" id="hr-detail"></div>
+      </div>
+    </div>
+
+    <!-- INVOICE -->
+    <div class="calc-card" id="invoice">
+      <div class="card-icon icon-blue">🧾</div>
+      <h3 data-i18n="inv_title">Invoice & Tax Calculator</h3>
+      <p class="card-desc" data-i18n="inv_desc">Add VAT/GST or income tax to any invoice and see exactly what to charge or keep.</p>
+      <div class="form-group"><label data-i18n="inv_sub">Invoice Subtotal ($)</label><input type="number" id="inv-sub" placeholder="1000"/></div>
+      <div class="form-row">
+        <div class="form-group"><label data-i18n="inv_tax">Tax / VAT Rate (%)</label><input type="number" id="inv-tax" placeholder="20"/></div>
+        <div class="form-group"><label data-i18n="inv_fee">Platform Fee (%)</label><input type="number" id="inv-fee" placeholder="0"/></div>
+      </div>
+      <div class="radio-group">
+        <label class="radio-opt"><input type="radio" name="inv-type" value="add" checked/> <span data-i18n="inv_add">Add tax on top</span></label>
+        <label class="radio-opt"><input type="radio" name="inv-type" value="inc"/> <span data-i18n="inv_inc">Tax included</span></label>
+      </div>
+      <button class="calc-btn" onclick="calcInvoice()" data-i18n="inv_btn">Calculate Invoice →</button>
+      <div class="result-box" id="inv-result">
+        <div class="result-main" id="inv-total">—</div>
+        <div class="result-label" data-i18n="inv_rl">Total to Charge Client</div>
+        <div class="result-grid">
+          <div class="result-cell"><div class="val" id="inv-taxamt">—</div><div class="lbl" data-i18n="inv_rl_tax">Tax Amount</div></div>
+          <div class="result-cell"><div class="val" id="inv-youkeep">—</div><div class="lbl" data-i18n="inv_rl_keep">You Keep</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SAVINGS -->
+    <div class="calc-card" id="savings">
+      <div class="card-icon icon-teal">🎯</div>
+      <h3 data-i18n="sv_title">Savings Goal Tracker</h3>
+      <p class="card-desc" data-i18n="sv_desc">How long until you hit your target? Enter your goal, savings, and monthly contribution.</p>
+      <div class="form-row">
+        <div class="form-group"><label data-i18n="sv_goal">Savings Goal ($)</label><input type="number" id="sv-goal" placeholder="20000"/></div>
+        <div class="form-group"><label data-i18n="sv_current">Current Savings ($)</label><input type="number" id="sv-current" placeholder="5000"/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label data-i18n="sv_monthly">Monthly Contribution ($)</label><input type="number" id="sv-monthly" placeholder="500"/></div>
+        <div class="form-group"><label data-i18n="sv_rate">Annual Return (%)</label><input type="number" id="sv-rate" placeholder="5"/></div>
+      </div>
+      <button class="calc-btn" onclick="calcSavings()" data-i18n="sv_btn">Calculate Timeline →</button>
+      <div class="result-box" id="sv-result">
+        <div class="result-main" id="sv-time">—</div>
+        <div class="result-label" data-i18n="sv_rl">Time to Reach Goal</div>
+        <div class="result-sub" id="sv-detail"></div>
+      </div>
+    </div>
+
+    <!-- PROFIT -->
+    <div class="calc-card" id="margin">
+      <div class="card-icon icon-red">📈</div>
+      <h3 data-i18n="pm_title">Project Profit Margin</h3>
+      <p class="card-desc" data-i18n="pm_desc">Find your net profit, gross margin %, and whether a project is worth taking on.</p>
+      <div class="form-row">
+        <div class="form-group"><label data-i18n="pm_rev">Project Revenue ($)</label><input type="number" id="pm-rev" placeholder="5000"/></div>
+        <div class="form-group"><label data-i18n="pm_cost">Direct Costs ($)</label><input type="number" id="pm-cost" placeholder="2000"/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label data-i18n="pm_hours">Hours Spent</label><input type="number" id="pm-hours" placeholder="40"/></div>
+        <div class="form-group"><label data-i18n="pm_overhead">Overhead Rate ($/hr)</label><input type="number" id="pm-overhead" placeholder="20"/></div>
+      </div>
+      <button class="calc-btn" onclick="calcMargin()" data-i18n="pm_btn">Analyze Profit →</button>
+      <div class="result-box" id="pm-result">
+        <div class="result-main" id="pm-margin">—</div>
+        <div class="result-label" data-i18n="pm_rl">Net Profit Margin</div>
+        <div class="result-grid">
+          <div class="result-cell"><div class="val" id="pm-net">—</div><div class="lbl" data-i18n="pm_rl_net">Net Profit</div></div>
+          <div class="result-cell"><div class="val" id="pm-eff">—</div><div class="lbl" data-i18n="pm_rl_eff">Effective $/hr</div></div>
+        </div>
+        <span class="result-badge" id="pm-badge"></span>
+      </div>
+    </div>
+
+    <!-- CURRENCY -->
+    <div class="calc-card" id="currency">
+      <div class="card-icon icon-blue">💱</div>
+      <h3 data-i18n="cur_title">Currency Converter</h3>
+      <p class="card-desc" data-i18n="cur_desc">Convert between major currencies using approximate rates. Verify before large transfers.</p>
+      <div class="form-group"><label data-i18n="cur_amount">Amount</label><input type="number" id="cur-amount" placeholder="1000"/></div>
+      <div class="form-row">
+        <div class="form-group"><label data-i18n="cur_from">From</label>
+          <select id="cur-from">
+            <option value="USD">USD – US Dollar</option><option value="EUR">EUR – Euro</option>
+            <option value="GBP">GBP – British Pound</option><option value="EGP">EGP – Egyptian Pound</option>
+            <option value="SAR">SAR – Saudi Riyal</option><option value="AED">AED – UAE Dirham</option>
+            <option value="CAD">CAD – Canadian Dollar</option><option value="AUD">AUD – Australian Dollar</option>
+            <option value="INR">INR – Indian Rupee</option><option value="JPY">JPY – Japanese Yen</option>
+            <option value="CHF">CHF – Swiss Franc</option>
+          </select>
+        </div>
+        <div class="form-group"><label data-i18n="cur_to">To</label>
+          <select id="cur-to">
+            <option value="EUR">EUR – Euro</option><option value="USD">USD – US Dollar</option>
+            <option value="GBP">GBP – British Pound</option><option value="EGP">EGP – Egyptian Pound</option>
+            <option value="SAR">SAR – Saudi Riyal</option><option value="AED">AED – UAE Dirham</option>
+            <option value="CAD">CAD – Canadian Dollar</option><option value="AUD">AUD – Australian Dollar</option>
+            <option value="INR">INR – Indian Rupee</option><option value="JPY">JPY – Japanese Yen</option>
+            <option value="CHF">CHF – Swiss Franc</option>
+          </select>
+        </div>
+      </div>
+      <button class="calc-btn" onclick="calcCurrency()" data-i18n="cur_btn">Convert →</button>
+      <div class="result-box" id="cur-result">
+        <div class="result-main" id="cur-converted">—</div>
+        <div class="result-label" id="cur-label">Converted Amount</div>
+        <div class="result-sub" data-i18n="cur_note">Approximate rates · Verify before large transfers.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="features" class="features">
+  <div class="section-header" style="padding-top:0">
+    <div class="section-tag" data-i18n="feat_tag">Why FreeCalc</div>
+    <h2 data-i18n="feat_h2">Built Around How You Work</h2>
+    <p data-i18n="feat_p">No bloat, no upsells, no confusing UI. Just clean, instant answers.</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card"><div class="feature-icon">🔒</div><h4 data-i18n="feat1_h">100% Private</h4><p data-i18n="feat1_p">All calculations happen in your browser. We never see your numbers.</p></div>
+    <div class="feature-card"><div class="feature-icon">📱</div><h4 data-i18n="feat2_h">Works Everywhere</h4><p data-i18n="feat2_p">Mobile, tablet, desktop — use it on the go between client calls.</p></div>
+    <div class="feature-card"><div class="feature-icon">⚡</div><h4 data-i18n="feat3_h">Instant Results</h4><p data-i18n="feat3_p">No loading spinners. Results appear immediately, right in the card.</p></div>
+    <div class="feature-card"><div class="feature-icon">🌍</div><h4 data-i18n="feat4_h">Multi-Currency</h4><p data-i18n="feat4_p">Support for USD, EUR, GBP, EGP, SAR, AED and more.</p></div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="section-header">
+    <div class="section-tag" data-i18n="faq_tag">FAQ</div>
+    <h2 data-i18n="faq_h2">Frequently Asked Questions</h2>
+  </div>
+  <div class="faq">
+    <div class="faq-item"><div class="faq-q" data-i18n="faq1_q">Is FreeCalc really free?</div><div class="faq-a" data-i18n="faq1_a">Yes, completely. No subscription, no account, no hidden fees. FreeCalc is free forever and supported by Google advertising.</div></div>
+    <div class="faq-item"><div class="faq-q" data-i18n="faq2_q">Does my data get stored anywhere?</div><div class="faq-a" data-i18n="faq2_a">No. Every calculation runs entirely in your browser. Nothing is sent to any server.</div></div>
+    <div class="faq-item"><div class="faq-q" data-i18n="faq3_q">How accurate are the currency rates?</div><div class="faq-a" data-i18n="faq3_a">The currency converter uses approximate rates for quick reference. Always verify with your bank before large transfers.</div></div>
+    <div class="faq-item"><div class="faq-q" data-i18n="faq4_q">Can I use BMI for medical decisions?</div><div class="faq-a" data-i18n="faq4_a">BMI is a general screening tool, not a medical diagnosis. Consult a healthcare professional for medical advice.</div></div>
+    <div class="faq-item"><div class="faq-q" data-i18n="faq5_q">Are tax calculations accurate for my country?</div><div class="faq-a" data-i18n="faq5_a">The calculators are estimates for guidance only. Tax laws vary by country — always consult a professional accountant.</div></div>
+  </div>
+</section>
+
+<section id="about" style="padding:20px 24px 60px;max-width:720px;margin:0 auto;text-align:center">
+  <div class="section-tag" data-i18n="about_tag">About FreeCalc</div>
+  <h2 style="font-size:26px;font-weight:700;margin:10px 0 14px" data-i18n="about_h2">Tools that respect your time</h2>
+  <p style="font-size:15px;color:var(--label-secondary);line-height:1.65" data-i18n="about_p">FreeCalc exists because freelancers, remote workers, and everyday people deserve clean, fast tools — not bloated spreadsheets or apps that demand your email. Bookmark it and share it.</p>
+</section>
+
+<footer>
+  <div class="footer-links">
+    <a href="#tools" data-i18n="nav_tools">Tools</a>
+    <a href="#faq"   data-i18n="nav_faq">FAQ</a>
+    <a href="#about" data-i18n="nav_about">About</a>
+    <a href="#"      data-i18n="footer_privacy">Privacy Policy</a>
+    <a href="#"      data-i18n="footer_disclaimer">Disclaimer</a>
+  </div>
+  <p data-i18n="footer_copy">© 2025 FreeCalc · All calculations are estimates · Not financial or medical advice</p>
+</footer>
+
+<script>
+// ═══════════════════════════════════════════
+// TRANSLATIONS
+// ═══════════════════════════════════════════
+const T = {
+  en: {
+    nav_tools:'Tools', nav_features:'Features', nav_faq:'FAQ', nav_about:'About',
+    hero_badge:'✦ Free · No Signup · Instant Results',
+    hero_h1:'Tools Built for <em>Smarter Decisions</em>',
+    hero_p:'Seven essential calculators — health, finance, and everything in between. Free forever, no account needed.',
+    ql_age:'Age', ql_bmi:'BMI', ql_hourly:'Hourly Rate', ql_invoice:'Invoice',
+    ql_savings:'Savings', ql_margin:'Profit', ql_currency:'Currency',
+    stat_calcs:'Calculators', stat_free:'Forever Free', stat_speed:'To Your Answer', stat_private:'100% Private',
+    tools_tag:'The Toolkit', tools_h2:"7 Calculators You'll Actually Use",
+    tools_p:'Built for people who want clear, instant answers — no bloat, no logins.',
+    div_health:'Health Tools', div_finance:'Finance Tools',
+    age_title:'Age Calculator', age_desc:'Find your exact age in years, months, and days — useful for forms, milestones, and curiosity.',
+    age_dob:'Date of Birth', age_asof:'Calculate Age As Of', age_btn:'Calculate Age →',
+    age_rl_years:'Years Old', age_rl_months:'Total Months', age_rl_days:'Total Days',
+    bmi_title:'BMI Calculator', bmi_desc:'Calculate your Body Mass Index instantly and see which weight category you fall into.',
+    bmi_metric:'Metric (kg / cm)', bmi_imperial:'Imperial (lb / in)',
+    bmi_weight_kg:'Weight (kg)', bmi_height_cm:'Height (cm)',
+    bmi_weight_lb:'Weight (lbs)', bmi_height_in:'Height (inches)',
+    bmi_btn:'Calculate BMI →', bmi_rl:'Body Mass Index',
+    bmi_cat1:'Underweight', bmi_cat2:'Normal', bmi_cat3:'Over', bmi_cat4:'Obese',
+    bmi_badge_under:'Underweight', bmi_badge_normal:'Normal weight', bmi_badge_over:'Overweight', bmi_badge_obese:'Obese',
+    hr_title:'Freelance Hourly Rate', hr_desc:'Calculate what you need to charge per hour to hit your income goal after expenses and taxes.',
+    hr_income:'Annual Income Target ($)', hr_hours:'Billable Hours / Week', hr_vacation:'Vacation Weeks / Year',
+    hr_expenses:'Business Expenses ($)', hr_tax:'Tax Rate (%)', hr_btn:'Calculate My Rate →', hr_rl:'Minimum Hourly Rate',
+    inv_title:'Invoice & Tax Calculator', inv_desc:'Add VAT/GST or income tax to any invoice and see exactly what to charge or keep.',
+    inv_sub:'Invoice Subtotal ($)', inv_tax:'Tax / VAT Rate (%)', inv_fee:'Platform Fee (%)',
+    inv_add:'Add tax on top', inv_inc:'Tax included', inv_btn:'Calculate Invoice →',
+    inv_rl:'Total to Charge Client', inv_rl_tax:'Tax Amount', inv_rl_keep:'You Keep',
+    sv_title:'Savings Goal Tracker', sv_desc:'How long until you hit your target? Enter your goal, savings, and monthly contribution.',
+    sv_goal:'Savings Goal ($)', sv_current:'Current Savings ($)', sv_monthly:'Monthly Contribution ($)',
+    sv_rate:'Annual Return (%)', sv_btn:'Calculate Timeline →', sv_rl:'Time to Reach Goal',
+    pm_title:'Project Profit Margin', pm_desc:'Find your net profit, gross margin %, and whether a project is worth taking on.',
+    pm_rev:'Project Revenue ($)', pm_cost:'Direct Costs ($)', pm_hours:'Hours Spent',
+    pm_overhead:'Overhead Rate ($/hr)', pm_btn:'Analyze Profit →', pm_rl:'Net Profit Margin',
+    pm_rl_net:'Net Profit', pm_rl_eff:'Effective $/hr',
+    cur_title:'Currency Converter', cur_desc:'Convert between major currencies using approximate rates. Verify before large transfers.',
+    cur_amount:'Amount', cur_from:'From', cur_to:'To', cur_btn:'Convert →',
+    cur_rl:'Converted Amount', cur_note:'Approximate rates · Verify before large transfers.',
+    feat_tag:'Why FreeCalc', feat_h2:'Built Around How You Work',
+    feat_p:'No bloat, no upsells, no confusing UI. Just clean, instant answers.',
+    feat1_h:'100% Private', feat1_p:'All calculations happen in your browser. We never see your numbers.',
+    feat2_h:'Works Everywhere', feat2_p:'Mobile, tablet, desktop — use it on the go between client calls.',
+    feat3_h:'Instant Results', feat3_p:'No loading spinners. Results appear immediately, right in the card.',
+    feat4_h:'Multi-Currency', feat4_p:'Support for USD, EUR, GBP, EGP, SAR, AED and more.',
+    faq_tag:'FAQ', faq_h2:'Frequently Asked Questions',
+    faq1_q:'Is FreeCalc really free?', faq1_a:'Yes, completely. No subscription, no account, no hidden fees. FreeCalc is free forever and supported by Google advertising.',
+    faq2_q:'Does my data get stored anywhere?', faq2_a:'No. Every calculation runs entirely in your browser. Nothing is sent to any server.',
+    faq3_q:'How accurate are the currency rates?', faq3_a:'The currency converter uses approximate rates for quick reference. Always verify with your bank before large transfers.',
+    faq4_q:'Can I use BMI for medical decisions?', faq4_a:'BMI is a general screening tool, not a medical diagnosis. Consult a healthcare professional for medical advice.',
+    faq5_q:'Are tax calculations accurate for my country?', faq5_a:'The calculators are estimates for guidance only. Tax laws vary by country — always consult a professional accountant.',
+    about_tag:'About FreeCalc', about_h2:'Tools that respect your time',
+    about_p:'FreeCalc exists because freelancers, remote workers, and everyday people deserve clean, fast tools — not bloated spreadsheets or apps that demand your email. Bookmark it and share it.',
+    footer_privacy:'Privacy Policy', footer_disclaimer:'Disclaimer',
+    footer_copy:'© 2025 FreeCalc · All calculations are estimates · Not financial or medical advice',
+    lang_toggle:'🌐 العربية',
+    // dynamic
+    fn_age_detail: (y,m,d) => `${y} year${y!==1?'s':''}, ${m} month${m!==1?'s':''}, and ${d} day${d!==1?'s':''}`,
+    fn_hr_detail:  (hrs,wks) => `Based on ${hrs.toLocaleString()} billable hours/year across ${wks} working weeks.`,
+    fn_sv_time:    (y,m) => y>0 ? `${y} yr${y>1?'s':''} ${m} mo` : `${m} month${m>1?'s':''}`,
+    fn_sv_detail:  (months) => `~${months} months to reach your goal.`,
+    sv_already:'Already there!', sv_already_sub:'Your savings already meet or exceed your goal. 🎉',
+    pm_excellent:'Excellent', pm_good:'Good', pm_marginal:'Marginal', pm_loss:'Loss',
+  },
+  ar: {
+    nav_tools:'الأدوات', nav_features:'المميزات', nav_faq:'الأسئلة الشائعة', nav_about:'عن الموقع',
+    hero_badge:'✦ مجاني · بدون تسجيل · نتائج فورية',
+    hero_h1:'أدوات صُمّمت لـ<em>قرارات أذكى</em>',
+    hero_p:'سبع حاسبات أساسية — الصحة والمال وكل ما بينهما. مجانية للأبد، بدون حساب.',
+    ql_age:'العمر', ql_bmi:'كتلة الجسم', ql_hourly:'الأجر بالساعة', ql_invoice:'الفاتورة',
+    ql_savings:'المدخرات', ql_margin:'الربح', ql_currency:'العملات',
+    stat_calcs:'حاسبة', stat_free:'مجاني للأبد', stat_speed:'للإجابة الفورية', stat_private:'خصوصية تامة',
+    tools_tag:'مجموعة الأدوات', tools_h2:'٧ حاسبات ستستخدمها فعلاً',
+    tools_p:'مصمّمة لمن يريد إجابات واضحة وفورية — بدون تعقيد أو تسجيل.',
+    div_health:'أدوات صحية', div_finance:'أدوات مالية',
+    age_title:'حاسبة العمر', age_desc:'اعرف عمرك بالضبط بالسنوات والأشهر والأيام — مفيد للنماذج والمناسبات.',
+    age_dob:'تاريخ الميلاد', age_asof:'احسب العمر حتى', age_btn:'احسب العمر ←',
+    age_rl_years:'سنة من العمر', age_rl_months:'إجمالي الأشهر', age_rl_days:'إجمالي الأيام',
+    bmi_title:'حاسبة مؤشر كتلة الجسم', bmi_desc:'احسب مؤشر كتلة جسمك فوراً واعرف في أي فئة وزنية تقع.',
+    bmi_metric:'متري (كجم / سم)', bmi_imperial:'إمبراطوري (رطل / بوصة)',
+    bmi_weight_kg:'الوزن (كجم)', bmi_height_cm:'الطول (سم)',
+    bmi_weight_lb:'الوزن (رطل)', bmi_height_in:'الطول (بوصة)',
+    bmi_btn:'احسب المؤشر ←', bmi_rl:'مؤشر كتلة الجسم',
+    bmi_cat1:'نقص وزن', bmi_cat2:'طبيعي', bmi_cat3:'زيادة', bmi_cat4:'سمنة',
+    bmi_badge_under:'نقص في الوزن', bmi_badge_normal:'وزن طبيعي', bmi_badge_over:'زيادة في الوزن', bmi_badge_obese:'سمنة',
+    hr_title:'حاسبة الأجر بالساعة', hr_desc:'احسب ما تحتاج تحصيله بالساعة لتحقيق هدفك الدخلي بعد المصروفات والضرائب.',
+    hr_income:'الدخل السنوي المستهدف ($)', hr_hours:'ساعات العمل القابلة للفوترة / أسبوع',
+    hr_vacation:'أسابيع الإجازة / السنة', hr_expenses:'مصروفات العمل ($)',
+    hr_tax:'نسبة الضريبة (%)', hr_btn:'احسب أجري ←', hr_rl:'الحد الأدنى للأجر بالساعة',
+    inv_title:'حاسبة الفاتورة والضريبة', inv_desc:'أضف الضريبة أو ضريبة القيمة المضافة لأي فاتورة واعرف بالضبط ما تتقاضاه.',
+    inv_sub:'المبلغ الأساسي للفاتورة ($)', inv_tax:'نسبة الضريبة / القيمة المضافة (%)',
+    inv_fee:'رسوم المنصة (%)', inv_add:'إضافة الضريبة فوق', inv_inc:'الضريبة مشمولة',
+    inv_btn:'احسب الفاتورة ←', inv_rl:'الإجمالي للعميل', inv_rl_tax:'مبلغ الضريبة', inv_rl_keep:'تحصل عليه',
+    sv_title:'متتبع هدف الادخار', sv_desc:'كم من الوقت حتى تصل لهدفك؟ أدخل هدفك ومدخراتك والمبلغ الشهري.',
+    sv_goal:'هدف الادخار ($)', sv_current:'المدخرات الحالية ($)',
+    sv_monthly:'المساهمة الشهرية ($)', sv_rate:'العائد السنوي (%)',
+    sv_btn:'احسب الجدول الزمني ←', sv_rl:'الوقت للوصول للهدف',
+    pm_title:'هامش ربح المشروع', pm_desc:'اعرف صافي ربحك ونسبة الهامش وهل المشروع يستحق أم لا.',
+    pm_rev:'إيرادات المشروع ($)', pm_cost:'التكاليف المباشرة ($)',
+    pm_hours:'الساعات المنجزة', pm_overhead:'معدل الإضافية ($/ساعة)',
+    pm_btn:'حلّل الربح ←', pm_rl:'هامش صافي الربح',
+    pm_rl_net:'صافي الربح', pm_rl_eff:'الفعلي $/ساعة',
+    cur_title:'محوّل العملات', cur_desc:'حوّل بين العملات الرئيسية بأسعار تقريبية. تحقق قبل التحويلات الكبيرة.',
+    cur_amount:'المبلغ', cur_from:'من', cur_to:'إلى', cur_btn:'حوّل ←',
+    cur_rl:'المبلغ المحوّل', cur_note:'أسعار تقريبية · تحقق قبل التحويلات الكبيرة.',
+    feat_tag:'لماذا FreeCalc', feat_h2:'مبنية حول طريقة عملك',
+    feat_p:'بدون تعقيد أو إعلانات مضللة. فقط إجابات واضحة وفورية.',
+    feat1_h:'خصوصية تامة', feat1_p:'كل الحسابات تتم في متصفحك فقط. لا نرى أرقامك أبداً.',
+    feat2_h:'يعمل في كل مكان', feat2_p:'موبايل، تابلت، سطح مكتب — استخدمه أثناء التنقل.',
+    feat3_h:'نتائج فورية', feat3_p:'بدون انتظار. النتائج تظهر مباشرة في البطاقة.',
+    feat4_h:'متعدد العملات', feat4_p:'دعم للدولار، اليورو، الجنيه، الريال، الدرهم وغيرها.',
+    faq_tag:'الأسئلة الشائعة', faq_h2:'أسئلة يسألها الجميع',
+    faq1_q:'هل FreeCalc مجاني فعلاً؟', faq1_a:'نعم تماماً. بدون اشتراك أو حساب أو رسوم مخفية. مجاني للأبد ومدعوم بإعلانات Google.',
+    faq2_q:'هل يتم تخزين بياناتي؟', faq2_a:'لا. كل الحسابات تتم في متصفحك فقط. لا يُرسل شيء لأي خادم.',
+    faq3_q:'ما مدى دقة أسعار العملات؟', faq3_a:'يستخدم المحوّل أسعاراً تقريبية للمرجعية السريعة. تحقق من بنكك قبل التحويلات الكبيرة.',
+    faq4_q:'هل يمكن استخدام المؤشر لقرارات طبية؟', faq4_a:'مؤشر كتلة الجسم أداة فحص عامة وليس تشخيصاً طبياً. استشر طبيبك للحصول على نصيحة طبية.',
+    faq5_q:'هل حسابات الضريبة دقيقة لبلدي؟', faq5_a:'الحاسبات تقديرية للإرشاد فقط. تختلف قوانين الضرائب بحسب الدولة — استشر محاسباً متخصصاً.',
+    about_tag:'عن FreeCalc', about_h2:'أدوات تحترم وقتك',
+    about_p:'FreeCalc موجود لأن المستقلين والعاملين عن بُعد يستحقون أدوات سريعة ونظيفة — بدون جداول معقدة أو تطبيقات تطلب بريدك. احفظه وشاركه.',
+    footer_privacy:'سياسة الخصوصية', footer_disclaimer:'إخلاء المسؤولية',
+    footer_copy:'© 2025 FreeCalc · الحسابات تقديرية · ليست نصيحة مالية أو طبية',
+    lang_toggle:'🌐 English',
+    // dynamic
+    fn_age_detail: (y,m,d) => `${y} سنة، ${m} شهر، و${d} يوم`,
+    fn_hr_detail:  (hrs,wks) => `بناءً على ${hrs.toLocaleString('ar-EG')} ساعة/سنة عبر ${wks} أسبوع عمل.`,
+    fn_sv_time:    (y,m) => y>0 ? `${y} سنة و${m} شهر` : `${m} شهر`,
+    fn_sv_detail:  (months) => `~${months} شهر للوصول للهدف.`,
+    sv_already:'وصلت بالفعل!', sv_already_sub:'مدخراتك تفي بهدفك أو تتجاوزه. 🎉',
+    pm_excellent:'ممتاز', pm_good:'جيد', pm_marginal:'هامشي', pm_loss:'خسارة',
+  }
+};
+
+// ═══════════════════════════════════════════
+// LANGUAGE ENGINE
+// ═══════════════════════════════════════════
+let lang = 'en';
+
+function applyLang(l) {
+  lang = l;
+  const html = document.documentElement;
+  html.lang = l;
+  html.dir  = l === 'ar' ? 'rtl' : 'ltr';
+  document.title = l === 'ar'
+    ? 'FreeCalc – حاسبات مجانية للصحة والمال'
+    : 'FreeCalc – Free Finance & Health Tools';
+
+  const t = T[l];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (typeof t[key] === 'string') el.textContent = t[key];
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    const key = el.getAttribute('data-i18n-html');
+    if (typeof t[key] === 'string') el.innerHTML = t[key];
+  });
+  document.getElementById('lang-toggle').textContent = t.lang_toggle;
+}
+
+function toggleLang() { applyLang(lang === 'en' ? 'ar' : 'en'); }
+
+// ═══════════════════════════════════════════
+// CALCULATOR LOGIC
+// ═══════════════════════════════════════════
+const fmt      = (n,d=2) => n.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
+const fmtMoney = n => '$' + fmt(n,2);
+const show     = id => document.getElementById(id).classList.add('visible');
+
+const today = new Date().toISOString().split('T')[0];
+document.getElementById('age-dob').max     = today;
+document.getElementById('age-as-of').value = today;
+document.getElementById('age-as-of').max   = today;
+
+// AGE
+function calcAge() {
+  const dobVal = document.getElementById('age-dob').value;
+  if (!dobVal) return;
+  const dob  = new Date(dobVal);
+  const asOf = new Date(document.getElementById('age-as-of').value);
+  if (dob > asOf) return;
+  let yrs = asOf.getFullYear()-dob.getFullYear(), mos = asOf.getMonth()-dob.getMonth(), days = asOf.getDate()-dob.getDate();
+  if (days<0){ mos--; days+=new Date(asOf.getFullYear(),asOf.getMonth(),0).getDate(); }
+  if (mos<0) { yrs--; mos+=12; }
+  const totalDays  = Math.floor((asOf-dob)/86400000);
+  const totalMonths= yrs*12+mos;
+  document.getElementById('age-years').textContent  = yrs;
+  document.getElementById('age-months').textContent = totalMonths.toLocaleString();
+  document.getElementById('age-days').textContent   = totalDays.toLocaleString();
+  document.getElementById('age-detail').textContent = T[lang].fn_age_detail(yrs,mos,days);
+  show('age-result');
+}
+
+// BMI
+let bmiUnit='metric';
+function setBmiUnit(u){
+  bmiUnit=u;
+  document.getElementById('bmi-metric-fields').style.display   = u==='metric'?'':'none';
+  document.getElementById('bmi-imperial-fields').style.display = u==='imperial'?'':'none';
+  document.getElementById('bmi-metric-btn').classList.toggle('active',u==='metric');
+  document.getElementById('bmi-imperial-btn').classList.toggle('active',u==='imperial');
+}
+function calcBmi(){
+  let bmi;
+  if(bmiUnit==='metric'){
+    const kg=parseFloat(document.getElementById('bmi-kg').value), cm=parseFloat(document.getElementById('bmi-cm').value);
+    if(!kg||!cm) return;
+    bmi=kg/Math.pow(cm/100,2);
+  } else {
+    const lb=parseFloat(document.getElementById('bmi-lb').value), ins=parseFloat(document.getElementById('bmi-in').value);
+    if(!lb||!ins) return;
+    bmi=(lb/Math.pow(ins,2))*703;
+  }
+  const t=T[lang];
+  let badgeClass,badgeKey,pct;
+  if(bmi<18.5)     {badgeClass='badge-blue';   badgeKey='bmi_badge_under';  pct=Math.max(2,(bmi/18.5)*22);}
+  else if(bmi<25)  {badgeClass='badge-green';  badgeKey='bmi_badge_normal'; pct=22+(bmi-18.5)/(25-18.5)*20;}
+  else if(bmi<30)  {badgeClass='badge-orange'; badgeKey='bmi_badge_over';   pct=42+(bmi-25)/(30-25)*25;}
+  else             {badgeClass='badge-red';    badgeKey='bmi_badge_obese';  pct=Math.min(96,67+(bmi-30)/10*30);}
+  document.getElementById('bmi-value').textContent  = fmt(bmi,1);
+  document.getElementById('bmi-detail').textContent = lang==='ar'
+    ? `مؤشر كتلة الجسم ${fmt(bmi,1)} يقع في فئة "${t[badgeKey]}" (الطبيعي: 18.5 – 24.9).`
+    : `A BMI of ${fmt(bmi,1)} is in the ${t[badgeKey].toLowerCase()} range (18.5–24.9 is normal).`;
+  const badge=document.getElementById('bmi-badge');
+  badge.textContent=t[badgeKey]; badge.className='result-badge '+badgeClass;
+  document.getElementById('bmi-needle').style.left=pct+'%';
+  show('bmi-result');
+}
+
+// HOURLY RATE
+function calcHourly(){
+  const income=parseFloat(document.getElementById('hr-income').value)||0;
+  const hrs=parseFloat(document.getElementById('hr-hours').value)||40;
+  const vac=parseFloat(document.getElementById('hr-vacation').value)||0;
+  const exp=parseFloat(document.getElementById('hr-expenses').value)||0;
+  const tax=parseFloat(document.getElementById('hr-tax').value)||0;
+  const wks=52-vac, billable=wks*hrs;
+  const rate=billable>0?((income+exp)/(1-tax/100))/billable:0;
+  document.getElementById('hr-rate').textContent   = fmtMoney(rate)+'/hr';
+  document.getElementById('hr-detail').textContent = T[lang].fn_hr_detail(billable,wks);
+  show('hr-result');
+}
+
+// INVOICE
+function calcInvoice(){
+  const sub=parseFloat(document.getElementById('inv-sub').value)||0;
+  const tax=parseFloat(document.getElementById('inv-tax').value)||0;
+  const fee=parseFloat(document.getElementById('inv-fee').value)||0;
+  const type=document.querySelector('input[name="inv-type"]:checked').value;
+  let taxAmt,total,keep;
+  if(type==='add'){taxAmt=sub*(tax/100);total=sub+taxAmt;keep=sub*(1-fee/100);}
+  else{taxAmt=sub-sub/(1+tax/100);total=sub;keep=(sub-taxAmt)*(1-fee/100);}
+  document.getElementById('inv-total').textContent   = fmtMoney(total);
+  document.getElementById('inv-taxamt').textContent  = fmtMoney(taxAmt);
+  document.getElementById('inv-youkeep').textContent = fmtMoney(keep);
+  show('inv-result');
+}
+
+// SAVINGS
+function calcSavings(){
+  const goal=parseFloat(document.getElementById('sv-goal').value)||0;
+  const cur=parseFloat(document.getElementById('sv-current').value)||0;
+  const mo=parseFloat(document.getElementById('sv-monthly').value)||1;
+  const r=parseFloat(document.getElementById('sv-rate').value)||0;
+  const t=T[lang];
+  if(cur>=goal){document.getElementById('sv-time').textContent=t.sv_already;document.getElementById('sv-detail').textContent=t.sv_already_sub;show('sv-result');return;}
+  const rate=r/100/12;
+  const months=rate===0?Math.ceil((goal-cur)/mo):Math.ceil(Math.log((goal*rate+mo)/(cur*rate+mo))/Math.log(1+rate));
+  const y=Math.floor(months/12),m=months%12;
+  document.getElementById('sv-time').textContent   = T[lang].fn_sv_time(y,m);
+  document.getElementById('sv-detail').textContent = T[lang].fn_sv_detail(months);
+  show('sv-result');
+}
+
+// PROFIT
+function calcMargin(){
+  const rev=parseFloat(document.getElementById('pm-rev').value)||0;
+  const cost=parseFloat(document.getElementById('pm-cost').value)||0;
+  const hrs=parseFloat(document.getElementById('pm-hours').value)||0;
+  const oh=parseFloat(document.getElementById('pm-overhead').value)||0;
+  const t=T[lang];
+  const net=rev-(cost+hrs*oh), margin=rev>0?(net/rev)*100:0, eff=hrs>0?net/hrs:0;
+  document.getElementById('pm-margin').textContent = fmt(margin,1)+'%';
+  document.getElementById('pm-net').textContent    = fmtMoney(net);
+  document.getElementById('pm-eff').textContent    = fmtMoney(eff)+'/hr';
+  const badge=document.getElementById('pm-badge');
+  if(margin>=40)      {badge.textContent=t.pm_excellent;badge.className='result-badge badge-green';}
+  else if(margin>=20) {badge.textContent=t.pm_good;     badge.className='result-badge badge-blue';}
+  else if(margin>=0)  {badge.textContent=t.pm_marginal; badge.className='result-badge badge-orange';}
+  else                {badge.textContent=t.pm_loss;     badge.className='result-badge badge-red';}
+  show('pm-result');
+}
+
+// CURRENCY
+const FX={USD:1,EUR:0.92,GBP:0.79,EGP:48.5,SAR:3.75,AED:3.67,CAD:1.36,AUD:1.53,INR:83.4,JPY:149.8,CHF:0.90};
+function calcCurrency(){
+  const amt=parseFloat(document.getElementById('cur-amount').value)||0;
+  const from=document.getElementById('cur-from').value, to=document.getElementById('cur-to').value;
+  document.getElementById('cur-converted').textContent = fmt(amt/FX[from]*FX[to],2);
+  document.getElementById('cur-label').textContent     = `${to} – ${lang==='ar'?'تقريبي':'Approximate'}`;
+  show('cur-result');
+}
+
+// FAQ
+document.querySelectorAll('.faq-q').forEach(q=>{
+  q.addEventListener('click',()=>{
+    const item=q.parentElement, was=item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+    if(!was) item.classList.add('open');
+  });
+});
+
+// Enter key
+document.querySelectorAll('input').forEach(inp=>{
+  inp.addEventListener('keydown',e=>{
+    if(e.key==='Enter'){const btn=inp.closest('.calc-card')?.querySelector('.calc-btn');if(btn)btn.click();}
+  });
+});
+</script>
+</body>
+</html>
