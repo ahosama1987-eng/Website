@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Finance Tools</title>
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header>
+<div class="container nav">
+<h1>Finance Tools</h1>
+<nav>
+<a href="index.html">Home</a>
+<a href="calculators.html">Calculators</a>
+</nav>
+</div>
+</header>
+
+<section class="container tool-box">
+<h2>Loan Calculator</h2>
+
+<input type="number" id="loanAmount" placeholder="Loan Amount">
+<input type="number" id="interestRate" placeholder="Interest Rate">
+<input type="number" id="loanYears" placeholder="Years">
+
+<button onclick="calculateLoan()">Calculate</button>
+
+<p id="loanResult"></p>
+</section>
+
+<script src="assets/js/script.js"></script>
+</body>
+</html>
