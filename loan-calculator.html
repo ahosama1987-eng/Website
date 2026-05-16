@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loan Calculator | FreeCalc Tools</title>
+<meta name="description" content="Calculate monthly loan payments and interest.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="calc-box">
+<h1>Loan Calculator</h1>
+
+<input type="number" id="amount" placeholder="Loan amount">
+<input type="number" id="rate" placeholder="Interest rate %">
+<input type="number" id="years" placeholder="Years">
+
+<button onclick="calcLoan()">Calculate Loan</button>
+
+<h2 id="result"></h2>
+</div>
+
+<script>
+function calcLoan(){
+  const P=parseFloat(document.getElementById('amount').value);
+  const annual=parseFloat(document.getElementById('rate').value)/100;
+  const years=parseFloat(document.getElementById('years').value);
+
+  const r=annual/12;
+  const n=years*12;
+
+  const monthly=(P*r)/(1-Math.pow(1+r,-n));
+
+  document.getElementById('result').innerText='Monthly Payment: '+monthly.toFixed(2);
+}
+</script>
+
+</body>
+</html>

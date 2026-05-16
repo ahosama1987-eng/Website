@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Age Calculator | FreeCalc Tools</title>
+<meta name="description" content="Calculate your exact age in years, months and days.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="calc-box">
+<h1>Age Calculator</h1>
+
+<input type="date" id="birth">
+
+<button onclick="calcAge()">Calculate Age</button>
+
+<h2 id="result"></h2>
+</div>
+
+<script>
+function calcAge(){
+  const birth=new Date(document.getElementById('birth').value);
+  const today=new Date();
+  let age=today.getFullYear()-birth.getFullYear();
+  document.getElementById('result').innerText='Your age: '+age+' years';
+}
+</script>
+
+</body>
+</html>

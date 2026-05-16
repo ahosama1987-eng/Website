@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BMI Calculator | FreeCalc Tools</title>
+<meta name="description" content="Free BMI calculator with healthy weight range and body mass index guide.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="calc-box">
+<h1>BMI Calculator</h1>
+
+<input type="number" id="height" placeholder="Height in cm">
+<input type="number" id="weight" placeholder="Weight in kg">
+
+<button onclick="calcBMI()">Calculate BMI</button>
+
+<h2 id="result"></h2>
+
+<p>
+BMI helps estimate whether your weight is healthy for your height.
+</p>
+</div>
+
+<script>
+function calcBMI(){
+  const h=document.getElementById('height').value/100;
+  const w=document.getElementById('weight').value;
+  const bmi=(w/(h*h)).toFixed(1);
+  document.getElementById('result').innerText='Your BMI: '+bmi;
+}
+</script>
+
+</body>
+</html>
