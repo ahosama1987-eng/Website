@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>حاسبة نت – أدوات حسابية مجانية</title>
+<meta name="description" content="موقع حاسبة نت: أدوات حسابية مجانية شاملة بالعربية والإنجليزية"/>
+<meta name="keywords" content="حاسبة,قرض,ربح,زكاة,عمر,BMI,ضريبة,calculator,loan,profit,zakat,age"/>
+<meta name="robots" content="index,follow"/>
+<meta property="og:title" content="حاسبة نت – Free Online Calculators"/>
+<meta property="og:type" content="website"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<!-- AdSense: replace with your publisher ID after approval
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+-->
+<style>
+/* ═══════════════════════════ VARIABLES */
+:root{
+  --bg:#0b0c10; --bg2:#13141b; --card:#1a1b26; --card2:#21222f;
+  --border:rgba(255,255,255,0.07); --accent:#00c2a8; --accent2:#00e5c9;
+  --glow:rgba(0,194,168,.15); --gold:#f5a623; --gold-g:rgba(245,166,35,.15);
+  --text:#e8eaf0; --text2:#8f95ab; --text3:#54596b;
+  --danger:#ff5c5c; --success:#3ecf8e; --blue:#5b8dee;
+  --r:14px; --r2:10px; --sh:0 8px 40px rgba(0,0,0,.5);
+  --tr:.2s ease; --sw:264px;
+}
+.light{
+  --bg:#f0f2f8; --bg2:#e4e7f0; --card:#fff; --card2:#f4f6fc;
+  --border:rgba(0,0,0,.08); --text:#1a1c28; --text2:#555b72; --text3:#9095ab;
+  --sh:0 8px 40px rgba(0,0,0,.1); --glow:rgba(0,194,168,.1); --gold-g:rgba(245,166,35,.1);
+}
+/* ═══════════════════════════ RESET */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background var(--tr),color var(--tr);font-size:15px;line-height:1.6}
+[lang-en] body,[lang-en] input,[lang-en] select,[lang-en] button{font-family:'Plus Jakarta Sans',sans-serif}
+input,select,button{font-family:inherit}
+input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
+/* ═══════════════════════════ LAYOUT */
+.layout{display:flex;min-height:100vh}
+/* SIDEBAR */
+.sidebar{
+  width:var(--sw);background:var(--bg2);border-left:1px solid var(--border);
+  display:flex;flex-direction:column;position:fixed;top:0;right:0;
+  height:100vh;z-index:100;transition:transform var(--tr),background var(--tr);
+  overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent;
+}
+html[dir=ltr] .sidebar{right:auto;left:0;border-left:none;border-right:1px solid var(--border)}
+.sidebar-logo{padding:26px 20px 18px;border-bottom:1px solid var(--border)}
+.logo-name{font-size:1.45rem;font-weight:900;color:var(--accent);line-height:1}
+.logo-sub{font-size:.68rem;color:var(--text2);margin-top:3px}
+.nav-section{padding:14px 12px 6px;font-size:.62rem;font-weight:700;color:var(--text3);letter-spacing:.1em;text-transform:uppercase}
+.nav-btn{
+  display:flex;align-items:center;gap:11px;padding:10px 15px;border-radius:var(--r2);
+  cursor:pointer;margin:2px 8px;font-size:.88rem;font-weight:600;color:var(--text2);
+  transition:all var(--tr);border:none;background:transparent;width:calc(100% - 16px);
+  text-align:right;font-family:inherit;
+}
+html[dir=ltr] .nav-btn{text-align:left}
+.nav-btn:hover{background:var(--glow);color:var(--accent)}
+.nav-btn.active{background:var(--glow);color:var(--accent);font-weight:700}
+.nav-btn .ni{font-size:1rem;flex-shrink:0}
+.sidebar-foot{margin-top:auto;padding:14px 16px;border-top:1px solid var(--border);font-size:.68rem;color:var(--text3);text-align:center}
+/* MAIN */
+.main{flex:1;margin-right:var(--sw);display:flex;flex-direction:column;min-height:100vh;transition:margin var(--tr)}
+html[dir=ltr] .main{margin-right:0;margin-left:var(--sw)}
+/* TOPBAR */
+.topbar{
+  background:var(--bg2);border-bottom:1px solid var(--border);
+  padding:13px 22px;display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:90;transition:background var(--tr);gap:10px;
+}
+.topbar-left{display:flex;align-items:center;gap:10px}
+.topbar-title{font-size:1rem;font-weight:700;color:var(--text);white-space:nowrap}
+.menu-btn{display:none;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:7px 10px;cursor:pointer;color:var(--text);font-size:1rem;transition:all var(--tr);flex-shrink:0}
+.topbar-right{display:flex;gap:8px;align-items:center;flex-shrink:0}
+.top-btn{
+  background:var(--card2);border:1px solid var(--border);border-radius:50px;
+  padding:6px 13px;font-family:inherit;font-size:.78rem;font-weight:700;
+  color:var(--text2);cursor:pointer;display:flex;align-items:center;gap:6px;
+  transition:all var(--tr);white-space:nowrap;
+}
+.top-btn:hover{border-color:var(--accent);color:var(--accent)}
+.lang-btn{background:var(--accent);color:#fff;border-color:var(--accent)}
+.lang-btn:hover{background:var(--accent2);border-color:var(--accent2);color:#fff}
+/* CONTENT */
+.content{flex:1;padding:26px 22px;max-width:920px;width:100%;margin:0 auto}
+/* AD SLOTS */
+.ad-slot{
+  background:var(--card2);border:1.5px dashed var(--border);border-radius:var(--r);
+  padding:16px;text-align:center;color:var(--text3);font-size:.72rem;margin:18px 0;
+  min-height:88px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:5px;
+}
+.ad-label{font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.5;margin-bottom:4px}
+/* PANELS */
+.panel{display:none;animation:fi .3s ease}
+.panel.active{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+/* HERO */
+.hero{
+  background:linear-gradient(135deg,var(--accent) 0%,#007a68 100%);
+  border-radius:var(--r);padding:28px 26px;margin-bottom:22px;
+  color:#fff;position:relative;overflow:hidden;
+}
+.hero::before{content:'';position:absolute;top:-50px;left:-50px;width:200px;height:200px;background:rgba(255,255,255,.05);border-radius:50%}
+.hero h1{font-size:1.55rem;font-weight:900;line-height:1.25;margin-bottom:7px}
+.hero p{font-size:.88rem;opacity:.87;max-width:500px}
+.hero-stats{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+.stat-pill{background:rgba(255,255,255,.15);border-radius:50px;padding:5px 14px;font-size:.78rem;font-weight:600;backdrop-filter:blur(4px)}
+/* TOOLS GRID */
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:13px;margin-bottom:22px}
+.tool-card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--r);
+  padding:18px;cursor:pointer;transition:all var(--tr);display:flex;flex-direction:column;gap:9px;
+}
+.tool-card:hover{border-color:var(--accent);box-shadow:0 0 0 3px var(--glow),var(--sh);transform:translateY(-2px)}
+.tc-icon{font-size:1.9rem}
+.tc-name{font-size:.92rem;font-weight:700}
+.tc-desc{font-size:.72rem;color:var(--text2);line-height:1.5}
+/* CALC CARD */
+.calc-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);margin-bottom:22px}
+.calc-hdr{background:var(--card2);padding:18px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:13px}
+.ch-icon{font-size:1.55rem}
+.ch-title{font-size:1.05rem;font-weight:800}
+.ch-sub{font-size:.75rem;color:var(--text2);margin-top:2px}
+.calc-body{padding:22px}
+/* FIELDS */
+.field{margin-bottom:16px}
+.field label{display:block;font-size:.8rem;font-weight:600;color:var(--text2);margin-bottom:6px}
+.field label small{color:var(--accent);font-weight:400;margin-inline-start:5px}
+.field input,.field select{
+  width:100%;background:var(--card2);border:1.5px solid var(--border);border-radius:var(--r2);
+  padding:11px 13px;font-size:.93rem;font-weight:600;color:var(--text);
+  transition:border-color var(--tr),box-shadow var(--tr);outline:none;appearance:none;font-family:inherit;
+}
+.field input:focus,.field select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--glow)}
+.field select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7'%3E%3Cpath fill='%238f95ab' d='M5 7L0 0h10z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:left 13px center;padding-left:34px;
+}
+html[dir=ltr] .field select{background-position:right 13px center;padding-left:13px;padding-right:34px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+/* BUTTONS */
+.calc-btn{
+  width:100%;padding:13px;background:var(--accent);color:#fff;font-family:inherit;
+  font-size:.97rem;font-weight:700;border:none;border-radius:var(--r2);cursor:pointer;
+  transition:all var(--tr);margin-top:2px;letter-spacing:.02em;
+}
+.calc-btn:hover{background:var(--accent2);transform:translateY(-1px);box-shadow:0 4px 20px var(--glow)}
+.calc-btn:active{transform:none}
+.btn-gold{background:var(--gold)!important}
+.btn-gold:hover{background:#ffb83d!important;box-shadow:0 4px 20px var(--gold-g)!important}
+.btn-green{background:#1a6b4a!important}
+.btn-green:hover{background:#1e8459!important}
+/* RESULTS */
+.results{background:var(--card2);border:1px solid var(--border);border-radius:var(--r);padding:18px;margin-top:18px;display:none;animation:fi .3s ease}
+.results.show{display:block}
+.res-big{background:linear-gradient(135deg,var(--glow),transparent);border:1.5px solid var(--accent);border-radius:var(--r2);padding:15px 18px;text-align:center;margin-bottom:14px}
+.res-big .rl{font-size:.78rem;color:var(--text2);margin-bottom:4px}
+.res-big .rv{font-size:1.9rem;font-weight:900;color:var(--accent)}
+.res-big .ru{font-size:.76rem;color:var(--text2);margin-top:2px}
+.res-row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--border)}
+.res-row:last-child{border-bottom:none}
+.res-lbl{font-size:.82rem;color:var(--text2);font-weight:500}
+.res-val{font-size:1rem;font-weight:800}
+.c-accent{color:var(--accent)} .c-gold{color:var(--gold)} .c-danger{color:var(--danger)} .c-success{color:var(--success)} .c-blue{color:var(--blue)}
+/* TABLE */
+.tbl-wrap{overflow-x:auto;margin-top:14px}
+table{width:100%;border-collapse:collapse;font-size:.8rem}
+thead th{background:var(--card2);padding:9px 11px;font-weight:700;color:var(--text2);border-bottom:1px solid var(--border);white-space:nowrap}
+tbody td{padding:8px 11px;border-bottom:1px solid var(--border);color:var(--text)}
+tbody tr:hover{background:var(--card2)}
+tbody tr:last-child td{border-bottom:none}
+/* TIP */
+.tip{background:var(--gold-g);border:1px solid rgba(245,166,35,.2);border-radius:var(--r2);padding:13px 15px;font-size:.8rem;color:var(--text2);margin-top:14px;line-height:1.7}
+.tip strong{color:var(--gold)}
+/* ABOUT / PRIVACY */
+.page-content{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:32px;box-shadow:var(--sh);margin-bottom:22px}
+.page-content h2{font-size:1.3rem;font-weight:900;color:var(--accent);margin-bottom:6px}
+.page-content h3{font-size:1rem;font-weight:700;margin:22px 0 8px;color:var(--text)}
+.page-content p{font-size:.88rem;color:var(--text2);line-height:1.9;margin-bottom:12px}
+.page-content ul{padding-inline-start:20px;margin-bottom:12px}
+.page-content ul li{font-size:.88rem;color:var(--text2);line-height:1.9;margin-bottom:4px}
+.page-content .badge{display:inline-block;background:var(--glow);color:var(--accent);border-radius:50px;padding:3px 12px;font-size:.72rem;font-weight:700;margin-bottom:14px;border:1px solid rgba(0,194,168,.2)}
+.page-content .contact-box{background:var(--card2);border-radius:var(--r2);padding:16px;margin-top:12px;font-size:.85rem;color:var(--text2);line-height:1.8}
+.page-content .contact-box a{color:var(--accent)}
+/* OVERLAY */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:99}
+/* RESPONSIVE */
+@media(max-width:780px){
+  .sidebar{transform:translateX(100%)}
+  html[dir=ltr] .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .overlay.open{display:block}
+  .main{margin-right:0!important;margin-left:0!important}
+  .menu-btn{display:flex;align-items:center;justify-content:center}
+  .row2,.row3{grid-template-columns:1fr}
+  .content{padding:18px 14px}
+  .tools-grid{grid-template-columns:1fr 1fr}
+  .hero h1{font-size:1.25rem}
+  .page-content{padding:22px 16px}
+}
+@media(max-width:420px){.tools-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- ══════════════ SIDEBAR ══════════════ -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-name" data-i18n="siteTitle">📐 حاسبة نت</div>
+    <div class="logo-sub" data-i18n="siteSub">أدوات حسابية مجانية شاملة</div>
+  </div>
+
+  <div class="nav-section" data-i18n="navMain">الرئيسية</div>
+  <button class="nav-btn active" onclick="showPanel('home')" id="nav-home"><span class="ni">🏠</span><span data-i18n="navHome">الرئيسية</span></button>
+
+  <div class="nav-section" data-i18n="navFinance">الحاسبات المالية</div>
+  <button class="nav-btn" onclick="showPanel('loan')"     id="nav-loan"><span class="ni">🏦</span><span data-i18n="navLoan">حاسبة القرض</span></button>
+  <button class="nav-btn" onclick="showPanel('profit')"   id="nav-profit"><span class="ni">📈</span><span data-i18n="navProfit">حاسبة الربح</span></button>
+  <button class="nav-btn" onclick="showPanel('compound')" id="nav-compound"><span class="ni">💹</span><span data-i18n="navCompound">الفائدة المركبة</span></button>
+  <button class="nav-btn" onclick="showPanel('roi')"      id="nav-roi"><span class="ni">🎯</span><span data-i18n="navROI">العائد على الاستثمار</span></button>
+  <button class="nav-btn" onclick="showPanel('savings')"  id="nav-savings"><span class="ni">🏧</span><span data-i18n="navSavings">حاسبة التوفير</span></button>
+  <button class="nav-btn" onclick="showPanel('zakat')"    id="nav-zakat"><span class="ni">🌙</span><span data-i18n="navZakat">حاسبة الزكاة</span></button>
+  <button class="nav-btn" onclick="showPanel('tax')"      id="nav-tax"><span class="ni">🧾</span><span data-i18n="navTax">حاسبة الضريبة</span></button>
+
+  <div class="nav-section" data-i18n="navOther">حاسبات أخرى</div>
+  <button class="nav-btn" onclick="showPanel('age')"      id="nav-age"><span class="ni">🎂</span><span data-i18n="navAge">حاسبة العمر</span></button>
+  <button class="nav-btn" onclick="showPanel('bmi')"      id="nav-bmi"><span class="ni">⚖️</span><span data-i18n="navBMI">مؤشر كتلة الجسم</span></button>
+  <button class="nav-btn" onclick="showPanel('discount')" id="nav-discount"><span class="ni">🏷️</span><span data-i18n="navDiscount">حاسبة الخصم</span></button>
+
+  <div class="nav-section" data-i18n="navInfo">معلومات</div>
+  <button class="nav-btn" onclick="showPanel('about')"   id="nav-about"><span class="ni">ℹ️</span><span data-i18n="navAbout">عن الموقع</span></button>
+  <button class="nav-btn" onclick="showPanel('privacy')" id="nav-privacy"><span class="ni">🔒</span><span data-i18n="navPrivacy">سياسة الخصوصية</span></button>
+
+  <div class="sidebar-foot" data-i18n="sideFooter">حاسبة نت © 2025 — مجاني 100%</div>
+</aside>
+
+<!-- ══════════════ MAIN ══════════════ -->
+<div class="layout">
+<main class="main">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+      <div class="topbar-title" id="topbarTitle" data-i18n="navHome">الرئيسية</div>
+    </div>
+    <div class="topbar-right">
+      <button class="top-btn lang-btn" onclick="toggleLang()" id="langBtn">EN</button>
+      <button class="top-btn" onclick="toggleMode()" id="modeBtn"><span id="modeIcon">☀️</span><span id="modeLabel" data-i18n="modeLight">فاتح</span></button>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- Ad Top -->
+    <div class="ad-slot">
+      <!-- Replace with AdSense code after approval:
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXX" data-ad-slot="XXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script> -->
+      <div class="ad-label" data-i18n="adLabel">إعلان / Advertisement</div>
+      <span data-i18n="adPlaceholder">ضع كود Google AdSense هنا — Place AdSense code here</span>
+    </div>
+
+    <!-- ══════════ HOME ══════════ -->
+    <div class="panel active" id="panel-home">
+      <div class="hero">
+        <h1 data-i18n="heroTitle">📐 حاسبة نت</h1>
+        <p data-i18n="heroSub">جميع الحاسبات التي تحتاجها في مكان واحد — مجانية، سريعة، بدون إنترنت</p>
+        <div class="hero-stats">
+          <div class="stat-pill" data-i18n="statCalcs">✅ 10 حاسبات</div>
+          <div class="stat-pill" data-i18n="statPrivacy">🔒 بدون تخزين بيانات</div>
+          <div class="stat-pill" data-i18n="statMobile">📱 يعمل على الجوال</div>
+          <div class="stat-pill" data-i18n="statBilingual">🌐 عربي / English</div>
+        </div>
+      </div>
+      <div class="tools-grid">
+        <div class="tool-card" onclick="showPanel('loan')"><div class="tc-icon">🏦</div><div class="tc-name" data-i18n="navLoan">حاسبة القرض</div><div class="tc-desc" data-i18n="descLoan">احسب قسطك الشهري وجدول السداد</div></div>
+        <div class="tool-card" onclick="showPanel('profit')"><div class="tc-icon">📈</div><div class="tc-name" data-i18n="navProfit">حاسبة الربح</div><div class="tc-desc" data-i18n="descProfit">هامش الربح والسعر المثالي لمنتجك</div></div>
+        <div class="tool-card" onclick="showPanel('compound')"><div class="tc-icon">💹</div><div class="tc-name" data-i18n="navCompound">الفائدة المركبة</div><div class="tc-desc" data-i18n="descCompound">شاهد كيف تنمو أموالك مع الوقت</div></div>
+        <div class="tool-card" onclick="showPanel('roi')"><div class="tc-icon">🎯</div><div class="tc-name" data-i18n="navROI">العائد على الاستثمار</div><div class="tc-desc" data-i18n="descROI">قيّم جدوى استثماراتك بدقة</div></div>
+        <div class="tool-card" onclick="showPanel('savings')"><div class="tc-icon">🏧</div><div class="tc-name" data-i18n="navSavings">حاسبة التوفير</div><div class="tc-desc" data-i18n="descSavings">خطط لهدفك المالي خطوة بخطوة</div></div>
+        <div class="tool-card" onclick="showPanel('zakat')"><div class="tc-icon">🌙</div><div class="tc-name" data-i18n="navZakat">حاسبة الزكاة</div><div class="tc-desc" data-i18n="descZakat">زكاة المال والذهب والفضة</div></div>
+        <div class="tool-card" onclick="showPanel('tax')"><div class="tc-icon">🧾</div><div class="tc-name" data-i18n="navTax">حاسبة الضريبة</div><div class="tc-desc" data-i18n="descTax">ضريبة القيمة المضافة لكل دولة</div></div>
+        <div class="tool-card" onclick="showPanel('age')"><div class="tc-icon">🎂</div><div class="tc-name" data-i18n="navAge">حاسبة العمر</div><div class="tc-desc" data-i18n="descAge">عمرك بالسنوات والأشهر والأيام</div></div>
+        <div class="tool-card" onclick="showPanel('bmi')"><div class="tc-icon">⚖️</div><div class="tc-name" data-i18n="navBMI">مؤشر كتلة الجسم</div><div class="tc-desc" data-i18n="descBMI">تحقق من مدى صحة وزنك</div></div>
+        <div class="tool-card" onclick="showPanel('discount')"><div class="tc-icon">🏷️</div><div class="tc-name" data-i18n="navDiscount">حاسبة الخصم</div><div class="tc-desc" data-i18n="descDiscount">السعر بعد الخصم أو نسبة الخصم</div></div>
+      </div>
+      <div class="ad-slot"><div class="ad-label">إعلان / Ad</div><span data-i18n="adMidPage">إعلان وسط الصفحة — Mid-page Ad</span></div>
+    </div>
+
+    <!-- ══════════ LOAN ══════════ -->
+    <div class="panel" id="panel-loan">
+      <div class="calc-card">
+        <div class="calc-hdr"><div class="ch-icon">🏦</div><div><div class="ch-title" data-i18n="navLoan">حاسبة القرض</div><div class="ch-sub" data-i18n="loanSub">احسب قسطك الشهري والفائدة الإجمالية وجدول السداد</div></div></div>
+        <div class="calc-body">
+          <div class="row2">
+            <div class="field"><label data-i18n="loanAmt">مبلغ القرض</label><input type="number" id="ln-amt" placeholder="100000" min="0"/></div>
+            <div class="field"><label data-i18n="loanYrs">المدة <small data-i18n="years">سنوات</small></label><input type="number" id="ln-yrs" placeholder="5" min="1" max="50"/></div>
+          </div>
+          <div class="row2">
+            <div class="field"><label data-i18n="loanRate">الفائدة السنوية <small>%</small></label><input type="number" id="ln-rate" placeholder="6.5" step="0.1" min="0"/></div>
+            <div class="field"><label data-i18n="loanType">نوع الفائدة</label>
+              <select id="ln-type">
+                <option value="reducing" data-i18n="loanReducing">متناقصة (Reducing)</option>
+                <option value="flat" data-i18n="loanFlat">ثابتة (Flat)</option>
+              </select>
+            </div>
+          </div>
+          <button class="calc-btn" onclick="calcLoan()" data-i18n="calcNow">احسب الآن</button>
+          <div class="results" id="ln-res">
+            <div class="res-big"><div class="rl" data-i18n="loanMonthly">القسط الشهري</div><div class="rv" id="ln-monthly">—</div></div>
+            <div class="res-row"><span class="res-lbl" data-i18n="loanTotal">إجمالي المسدد</span><span class="res-val c-accent" id="ln-total">—</span></div>
+            <div class="res-row"><span class="res-lbl" data-i18n="loanInterest">إجمالي الفائدة</span><span class="res-val c-danger" id="ln-interest">—</span></div>
+            <div class="res-row"><span class="res-lbl" data-i18n="loanIntPct">نسبة الفائدة</span><span class="res-val" id="ln-int-pct">—</span></div>
+          </div>
+          <div id="ln-tbl-wrap" style="display:none;margin-top:16px">
+            <button class="calc-btn" style="background:var(--card2);color:var(--text2);border:1px solid var(--border)" onclick="toggleLoanTable()" data-i18n="loanSchedule">📋 جدول السداد</button>
+            <div id="ln-tbl" class="tbl-wrap" style="display:none"></div>
+          </div>
+          <div class="tip"><strong data-i18n="tipLabel">💡 نصيحة:</strong> <span data-i18n="loanTip">كلما قصرت مدة القرض، قلّت الفائدة الإجمالية حتى لو ارتفع القسط الشهري.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ PROFIT ══════════ -->
+    <div class="panel" id="panel-profit">
+      <div class="calc-card">
+        <div class="calc-hdr"><div class="ch-icon">📈</div><div><div class="ch-title" data-i18n="navProfit">حاسبة الربح</div><div class="ch-sub" data-i18n="profitSub">احسب هامش الربح، سعر البيع، أو التكلفة</div></div></div>
+        <div class="calc-body">
+          <div class="field"><label data-i18n="profitMode">طريقة الحساب</label>
+            <select id="pr-mode" onchange="updProfitMode()">
+              <option value="margin" data-i18n="prM1">لدي التكلفة والسعر — احسب الهامش</option>
+              <option value="price"  data-i18n="prM2">لدي التكلفة والهامش — احسب السعر</option>
+              <option value="cost"   data-i18n="prM3">لدي السعر والهامش — احسب التكلفة</option>
+            </select>
+          </div>
+          <div class="row2">
+            <div class="field" id="pr-cost-f"><label data-i18n="profitCost">تكلفة المنتج</label><input type="number" id="pr-cost" placeholder="50" min="0"/></div>
+            <div class="field" id="pr-price-f"><label data-i18n="profitPrice">سعر البيع</label><input type="number" id="pr-price" placeholder="80" min="0"/></div>
+            <div class="field" id="pr-margin-f" style="display:none"><label data-i18n="profitMarginInp">الهامش المطلوب <small>%</small></label><input type="number" id="pr-margin-i" placeholder="30" min="0" max="100"/></div>
+          </div>
+          <button class="calc-btn btn-gold" onclick="calcProfit()" data-i18n="calcNow">احسب الآن</button>
+          <div class="results" id="pr-res">
+            <div class="res-big" style="border-color:var(--gold);background:linear-gradient(135deg,var(--gold-g),transparent)">
+              <div class="rl" data-i18n="profitNet">الربح الصافي</div><div class="rv" id="pr-net" style="color:var(--gold)">—</div>
+            </div>
+            <div class="res-row"><span class="res-lbl" data-i18n="profitMarginOut">هامش الربح</span><span class="res-val c-gold" id="pr-margin-o">—</span></div>
+            <div class="res-row"><span class="res-lbl" data-i18n="profitMarkup">العلاوة (Markup)</span><span class="res-val" id="pr-markup">—</span></div>
+            <div class="res-row" id="pr-price-row"><span class="res-lbl" data-i18n="profitPriceOut">سعر البيع المقترح</span><span class="res-val c-accent" id="pr-price-o">—</span></div>
+            <div class="res-row" id="pr-cost-row" style="display:none"><span class="res-lbl" data-i18n="profitCostOut">التكلفة المحسوبة</span><span class="res-val c-accent" id="pr-cost-o">—</span></div>
+          </div>
+          <div class="tip"><strong data-i18n="tipLabel">💡 نصيحة:</strong> <span data-i18n="profitTip">الهامش يُحسب من السعر؛ العلاوة (Markup) تُحسب من التكلفة.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ COMPOUND ══════════ -->
+    <div class="panel" id="panel-compound">
+      <div class="calc-card">
+        <div class="calc-hdr"><div class="ch-icon">💹</div><div><div class="ch-title" data-i18n="navCompound">الفائدة المركبة</div><div class="ch-sub" data-i18n="compSub">اكتشف قوة النمو المركب على استثماراتك</div></div></div>
+        <div class="calc-body">
+          <div class="row2">
+            <div class="field"><label data-i18n="compPrincipal">رأس المال الأولي</label><input type="number" id="ci-p" placeholder="10000" min="0"/></div>
+            <div class="field"><label data-i18n="compRate">الفائدة السنوية <small>%</small></label><input type="number" id="ci-r" placeholder="8" step="0.1" min="0"/></div>
+          </div>
+          <div class="row2">
+            <div class="field"><label data-i18n="compYears">المدة <small data-i18n="years">سنوات</small></label><input type="number" id="ci-y" placeholder="10" min="1"/></div>
+            <div class="field"><label data-i18n="compFreq">تكرار الاحتساب</label>
+              <select id="ci-f">
+                <option value="1"   data-i18n="freqAnnual">سنوي</option>
+                <option value="2"   data-i18n="freqSemi">نصف سنوي</option>
+                <option value="4"   data-i18n="freqQ">ربع سنوي</option>
+                <option value="12"  data-i18n="freqM" selected>شهري</option>
+                <option value="365" data-i18n="freqD">يومي</option>
+              </select>
+            </div>
+          </div>
+          <div class="field"><label data-i18n="compMonthly">إضافة شهرية اختيارية <small data-i18n="optional">0 إن لم تكن</small></label><input type="number" id="ci-m" placeholder="0" min="0"/></div>
+          <button class="calc-btn" onclick="calcCompound()" data-i18n="calcNow">احسب الآن</button>
+          <div class="results" id="ci-res">
+            <div class="res-big"><div class="rl" data-i18n="compFinal">القيمة النهائية</div><div class="rv" id="ci-final">—</div></div>
+            <div class="res-row"><span class="res-lbl" data-i18n="compOrig">رأس المال الأصلي</span><span class="res-val" id="ci-orig">—</span></div>
+            <div class="res-row"><span class="res-lbl" data-i18n="compAdded">إجمالي الإضافات</span><span class="res-val" id="ci-added">—</span></div>
+            <div class="res-row"><span class="res-lbl" data-i18n="compInterest">الفائدة المركبة</span><span class="res-val c-success" id="ci-int">—</span></div>
+            <div class="res-row"><span class="res-lbl" data-i18n="compMult">مضاعفة رأس المال</span><span class="res-val c-accent" id="ci-mult">—</span></div>
+          </div>
+          <div class="tip"><strong data-i18n="tipLabel">💡 نصيحة:</strong> <span data-i18n="compTip">قاعدة 72: قسّم 72 على نسبة الفائدة لتعرف كم سنة لمضاعفة أموالك.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ ROI ══════════ -->
+    <div class="panel" id="panel-roi">
+      <div class="calc-card">
+        <div class="calc-hdr"><div class="ch-icon">🎯</div><div><div class="ch-title" data-i18n="navROI">العائد على الاستثمار</div><div class="ch-sub" data-i18n="roiSub">قيّم ربحية استثمارك — ROI & CAGR</div></div></div>
+        <div class="calc-body">
+          <div class="row2">
+            <div class="field"><label data-i18n="roiCost">تكلفة الاستثمار</label><input type="number" id="roi-c" placeholder="50000" min="0"/></div>
+            <div class="field"><label data-i18n="roiReturn">العائد النهائي</label><input type="number" id="roi-r" placeholder="75000" min="0"/></div>
+          </div>
+          <div class="field"><label data-i18n="roiYears">المدة <small data-i18n="optional">سنوات — اختياري</small></label><input type="number" id="roi-y" placeholder="3" min="0" step="0.5"/></div>
+          <button class="calc-btn" onclick="calcROI()" data-i18n="calcNow">احسب الآن</button>
+          <div class="results" id="roi-res">
+            <div class="res-big"><div class="rl" data-i18n="roiPct">العائد على الاستثمار</div><div class="rv" id="roi-pct">—</div></div>
+            <div class="res-row"><span class="res-lbl" data-i18n="roiProfit">صافي الربح</span><span class="res-val c-success" id="roi-profit">—</span></div>
+            <div class="res-row"><span class="res-lbl" data-i18n="roiAnnual">العائد السنوي (CAGR)</span><span class="res-val c-accent" id="roi-annual">—</span></div>
+            <div class="res-row"><span class="res-lbl" data-i18n="roiVerdict">التقييم</span><span class="res-val" id="roi-verdict">—</span></div>
+          </div>
+          <div class="tip"><strong data-i18n="tipLabel">💡 نصيحة:</strong> <span data-i18n="roiTip">ROI فوق 15% سنويًا يُعدّ ممتازًا في معظم الأسواق.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ SAVINGS ══════════ -->
+    <div class="panel" id="panel-savings">
+      <div class="calc-card">
+        <div class="calc-hdr"><div class="ch-icon">🏧</div><div><div class="ch-title" data-i18n="navSavings">حاسبة التوفير</div><div class="ch-sub" data-i18n="savSub">خطط لتحقيق هدفك المالي</div></div></div>
+        <div class="calc-body">
+          <div class="row2">
+            <div class="field"><label data-i18n="savGoal">المبلغ الهدف</label><input type="number" id="sv-g" placeholder="100000" min="0"/></div>
+            <div class="field"><label data-i18n="savCurrent">المدخرات الحالية</label><input type="number" id="sv-c" placeholder="5000" min="0"/></div>
+          </div>
+          <div class="row2">
+            <div class="field"><label data-i18n="savRate">العائد السنوي <small>%</small></label><input type="number" id="sv-r" placeholder="5" step="0.1" min="0"/></div>
+            <div class="field"><label data-i18n="savYears">المدة <small data-i18n="years">سنوات</small></label><input type="number" id="sv-y" placeholder="5" min="1"/></div>
+          </div>
+          <button class="calc-btn" onclick="calcSavings()" data-i18n="calcNow">احسب الآن</button>
+          <div class="results" id="sv-res">
+            <div class="res-big"><div class="rl" data-i18n="savMonthly">المبلغ الشهري المطلوب</div><div class="rv" id="sv-monthly">—</div></div>
+            <div class="res-row"><span class="res-lbl" data-i18n="savTotalC">إجمالي ما ستوفره</span><span class="res-val" id="sv-total">—</span></div>
+            <div class="res-row"><span class="res-lbl" data-i18n="savInterest">العائد التراكمي</span><span class="res-val c-success" id="sv-int">—</span></div>
+            <div class="res-row"><span class="res-lbl" data-i18n="savFinal">المبلغ النهائي</span><span class="res-val c-accent" id="sv-final">—</span></div>
+          </div>
+          <div class="tip"><strong data-i18n="tipLabel">💡 نصيحة:</strong> <span data-i18n="savTip">وفّر 20% من دخلك الشهري (قاعدة 50/30/20) للوصول لأهدافك أسرع.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ ZAKAT ══════════ -->
+    <div class="panel" id="panel-zakat">
+      <div class="calc-card">
+        <div class="calc-hdr"><div class="ch-icon">🌙</div><div><div class="ch-title" data-i18n="navZakat">حاسبة الزكاة</div><div class="ch-sub" data-i18n="zakatSub">احسب زكاة مالك، ذهبك وفضتك</div></div></div>
+        <div class="calc-body">
+          <div class="field"><label data-i18n="zakatCurr">العملة المحلية</label>
+            <select id="zk-curr">
+              <option value="sar">ريال سعودي / SAR</option>
+              <option value="egp">جنيه مصري / EGP</option>
+              <option value="aed">درهم إماراتي / AED</option>
+              <option value="kwd">دينار كويتي / KWD</option>
+              <option value="usd">دولار / USD</option>
+            </select>
+          </div>
+          <div class="field"><label data-i18n="zakatGoldPrice">سعر جرام الذهب <small data-i18n="zakatGoldPriceSub">عيار 21 بعملتك</small></label><input type="number" id="zk-gp" placeholder="230" min="0"/></div>
+          <div style="background:var(--card2);border-radius:var(--r2);padding:11px 13px;font-size:.82rem;color:var(--text2);margin-bottom:16px" data-i18n="zakatNisabNote">ℹ️ نصاب الذهب = 85 جرام من الذهب الخالص (عيار 24)</div>
+          <div class="field"><label data-i18n="zakatCash">النقود والمدخرات</label><input type="number" id="zk-cash" placeholder="0" min="0"/></div>
+          <div class="row2">
+            <div class="field"><label data-i18n="zakatGoldG">الذهب المدّخر <small data-i18n="grams">جرام</small></label><input type="number" id="zk-gold" placeholder="0" min="0"/></div>
+            <div class="field"><label data-i18n="zakatSilverG">الفضة المدّخرة <small data-i18n="grams">جرام</small></label><input type="number" id="zk-silv" placeholder="0" min="0"/></div>
+          </div>
+          <div class="row2">
+            <div class="field"><label data-i18n="zakatRecv">ديون ومستحقات</label><input type="number" id="zk-recv" placeholder="0" min="0"/></div>
+            <div class="field"><label data-i18n="zakatDebts">ديون عليك (تُخصم)</label><input type="number" id="zk-debt" placeholder="0" min="0"/></div>
+          </div>
+          <button class="calc-btn btn-green" onclick="calcZakat()" data-i18n="calcNow">احسب الزكاة</button>
+          <div class="results" id="zk-res">
+            <div class="res-row"><span class="res-lbl" data-i18n="zakatTotal">إجمالي المال الزكوي</span><span class="res-val" id="zk-total">—</span></div>
+            <div class="res-row"><span class="res-lbl" data-i18n="zakatNisab">النصاب</span><span class="res-val" id="zk-nisab">—</span></div>
+            <div class="res-row"><span class="res-lbl" data-i18n="zakatEligible">هل بلغت النصاب؟</span><span class="res-val" id="zk-elig">—</span></div>
+            <div class="res-big" style="border-color:var(--success);background:linear-gradient(135deg,rgba(62,207,142,.1),transparent)">
+              <div class="rl" data-i18n="zakatAmt">مقدار الزكاة الواجبة (2.5%)</div><div class="rv" id="zk-amt" style="color:var(--success)">—</div>
+            </div>
+          </div>
+          <div class="tip"><strong data-i18n="noteLabel">📌 ملاحظة:</strong> <span data-i18n="zakatNote">هذه الحاسبة تعتمد رأي الجمهور. استشر عالمًا للتدقيق في حالتك.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ TAX ══════════ -->
+    <div class="panel" id="panel-tax">
+      <div class="calc-card">
+        <div class="calc-hdr"><div class="ch-icon">🧾</div><div><div class="ch-title" data-i18n="navTax">حاسبة الضريبة</div><div class="ch-sub" data-i18n="taxSub">ضريبة القيمة المضافة لجميع الدول</div></div></div>
+        <div class="calc-body">
+          <div class="row2">
+            <div class="field"><label data-i18n="taxRate">نسبة الضريبة</label>
+              <select id="tx-rate" onchange="updTaxCustom()">
+                <option value="15">15% — السعودية / KSA</option>
+                <option value="14">14% — مصر / Egypt</option>
+                <option value="5">5% — الإمارات / UAE</option>
+                <option value="10">10% — الأردن / Jordan</option>
+                <option value="16">16% — لبنان / Lebanon</option>
+                <option value="20">20% — UK / Europe</option>
+                <option value="custom" data-i18n="taxCustom">مخصص / Custom</option>
+              </select>
+            </div>
+            <div class="field" id="tx-cust-f" style="display:none"><label data-i18n="taxCustomRate">نسبة مخصصة <small>%</small></label><input type="number" id="tx-cust" placeholder="12" min="0" max="100"/></div>
+          </div>
+          <div class="field"><label data-i18n="taxMode">طريقة الحساب</label>
+            <select id="tx-mode">
+              <option value="add"     data-i18n="taxAdd">السعر بدون ضريبة — أضف الضريبة</option>
+              <option value="extract" data-i18n="taxExtract">السعر شامل الضريبة — استخرج الضريبة</option>
+            </select>
+          </div>
+          <div class="field"><label data-i18n="taxAmount">المبلغ</label><input type="number" id="tx-amt" placeholder="1000" min="0"/></div>
+          <button class="calc-btn" onclick="calcTax()" data-i18n="calcNow">احسب الآن</button>
+          <div class="results" id="tx-res">
+            <div class="res-row"><span class="res-lbl" data-i18n="taxBefore">المبلغ قبل الضريبة</span><span class="res-val" id="tx-before">—</span></div>
+            <div class="res-row"><span class="res-lbl" data-i18n="taxVal">قيمة الضريبة</span><span class="res-val c-danger" id="tx-val">—</span></div>
+            <div class="res-row"><span class="res-lbl" data-i18n="taxAfter">المبلغ الإجمالي</span><span class="res-val c-accent" id="tx-after">—</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ AGE ══════════ -->
+    <div class="panel" id="panel-age">
+      <div class="calc-card">
+        <div class="calc-hdr"><div class="ch-icon">🎂</div><div><div class="ch-title" data-i18n="navAge">حاسبة العمر</div><div class="ch-sub" data-i18n="ageSub">عمرك بالتفصيل: سنوات، أشهر، أيام، ساعات</div></div></div>
+        <div class="calc-body">
+          <div class="row2">
+            <div class="field"><label data-i18n="ageBirth">تاريخ الميلاد</label><input type="date" id="ag-birth"/></div>
+            <div class="field"><label data-i18n="ageTo">تاريخ الحساب <small data-i18n="optional">اتركه للتاريخ الحالي</small></label><input type="date" id="ag-to"/></div>
+          </div>
+          <button class="calc-btn" onclick="calcAge()" data-i18n="calcAge2">احسب العمر</button>
+          <div class="results" id="ag-res">
+            <div class="res-big"><div class="rl" data-i18n="ageResult">عمرك</div><div class="rv" id="ag-main" style="font-size:1.3rem">—</div></div>
+            <div class="res-row"><span class="res-lbl" data-i18n="ageMonths">إجمالي الأشهر</span><span class="res-val" id="ag-months">—</span></div>
+            <div class="res-row"><span class="res-lbl" data-i18n="ageDays">إجمالي الأيام</span><span class="res-val c-accent" id="ag-days">—</span></div>
+            <div class="res-row"><span class="res-lbl" data-i18n="ageHours">إجمالي الساعات</span><span class="res-val" id="ag-hours">—</span></div>
+            <div class="res-row"><span class="res-lbl" data-i18n="ageNextBday">أيام على عيد ميلادك القادم</span><span class="res-val c-gold" id="ag-next">—</span></div>
+            <div class="res-row"><span class="res-lbl" data-i18n="ageDayName">يوم ميلادك</span><span class="res-val" id="ag-dayname">—</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ BMI ══════════ -->
+    <div class="panel" id="panel-bmi">
+      <div class="calc-card">
+        <div class="calc-hdr"><div class="ch-icon">⚖️</div><div><div class="ch-title" data-i18n="navBMI">مؤشر كتلة الجسم</div><div class="ch-sub" data-i18n="bmiSub">تحقق من وزنك ومدى صحته</div></div></div>
+        <div class="calc-body">
+          <div class="row2">
+            <div class="field"><label data-i18n="bmiHeight">الطول <small>cm</small></label><input type="number" id="bm-h" placeholder="175" min="100" max="250"/></div>
+            <div class="field"><label data-i18n="bmiWeight">الوزن <small>kg</small></label><input type="number" id="bm-w" placeholder="75" min="30" max="300"/></div>
+          </div>
+          <div class="row2">
+            <div class="field"><label data-i18n="bmiGender">الجنس</label>
+              <select id="bm-gen">
+                <option value="m" data-i18n="male">ذكر</option>
+                <option value="f" data-i18n="female">أنثى</option>
+              </select>
+            </div>
+            <div class="field"><label data-i18n="bmiAge">العمر <small data-i18n="years">سنة</small></label><input type="number" id="bm-age" placeholder="30" min="5" max="100"/></div>
+          </div>
+          <button class="calc-btn" onclick="calcBMI()" data-i18n="calcNow">احسب الآن</button>
+          <div class="results" id="bm-res">
+            <div class="res-big"><div class="rl" data-i18n="bmiVal">مؤشر كتلة الجسم</div><div class="rv" id="bm-val">—</div></div>
+            <div class="res-row"><span class="res-lbl" data-i18n="bmiCat">التصنيف</span><span class="res-val" id="bm-cat">—</span></div>
+            <div class="res-row"><span class="res-lbl" data-i18n="bmiIdeal">الوزن المثالي</span><span class="res-val c-accent" id="bm-ideal">—</span></div>
+            <div class="res-row"><span class="res-lbl" data-i18n="bmiDiff">فرق الوزن</span><span class="res-val" id="bm-diff">—</span></div>
+            <div class="res-row"><span class="res-lbl" data-i18n="bmiCals">السعرات اليومية</span><span class="res-val" id="bm-cals">—</span></div>
+          </div>
+          <div class="tip"><strong data-i18n="noteLabel">⚠️ تنبيه:</strong> <span data-i18n="bmiNote">BMI مؤشر عام وليس تشخيصًا طبيًا. استشر طبيبك دائمًا.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ DISCOUNT ══════════ -->
+    <div class="panel" id="panel-discount">
+      <div class="calc-card">
+        <div class="calc-hdr"><div class="ch-icon">🏷️</div><div><div class="ch-title" data-i18n="navDiscount">حاسبة الخصم</div><div class="ch-sub" data-i18n="discSub">السعر بعد الخصم أو نسبة الخصم</div></div></div>
+        <div class="calc-body">
+          <div class="field"><label data-i18n="discMode">نوع الحساب</label>
+            <select id="dc-mode" onchange="updDiscMode()">
+              <option value="apply" data-i18n="discApply">لدي السعر والخصم — احسب السعر النهائي</option>
+              <option value="find"  data-i18n="discFind">لدي سعرَين — احسب نسبة الخصم</option>
+            </select>
+          </div>
+          <div class="row2">
+            <div class="field"><label data-i18n="discOriginal">السعر الأصلي</label><input type="number" id="dc-orig" placeholder="500" min="0"/></div>
+            <div class="field" id="dc-pct-f"><label data-i18n="discPct">نسبة الخصم <small>%</small></label><input type="number" id="dc-pct" placeholder="20" min="0" max="100"/></div>
+            <div class="field" id="dc-final-f" style="display:none"><label data-i18n="discFinalInp">السعر بعد الخصم</label><input type="number" id="dc-final" placeholder="400" min="0"/></div>
+          </div>
+          <button class="calc-btn btn-gold" onclick="calcDiscount()" data-i18n="calcNow">احسب الآن</button>
+          <div class="results" id="dc-res">
+            <div class="res-big" style="border-color:var(--gold);background:linear-gradient(135deg,var(--gold-g),transparent)">
+              <div class="rl" id="dc-main-lbl" data-i18n="discFinalOut">السعر بعد الخصم</div><div class="rv" id="dc-main-val" style="color:var(--gold)">—</div>
+            </div>
+            <div class="res-row"><span class="res-lbl" data-i18n="discSaved">المبلغ الموفّر</span><span class="res-val c-success" id="dc-saved">—</span></div>
+            <div class="res-row"><span class="res-lbl" id="dc-sec-lbl" data-i18n="discPctOut">نسبة الخصم</span><span class="res-val" id="dc-sec-val">—</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ ABOUT ══════════ -->
+    <div class="panel" id="panel-about">
+      <div class="page-content">
+        <span class="badge" data-i18n="aboutBadge">عن الموقع / About Us</span>
+        <h2 data-i18n="aboutTitle">📐 حاسبة نت</h2>
+        <p data-i18n="aboutDesc1">حاسبة نت هو موقع متخصص يوفر مجموعة شاملة من الأدوات الحسابية المجانية باللغتين العربية والإنجليزية، مصمم ليكون مرجعك الأول في الحسابات اليومية المالية والشخصية.</p>
+        <h3 data-i18n="aboutMission">🎯 مهمتنا</h3>
+        <p data-i18n="aboutMissionText">نؤمن أن الأدوات المالية يجب أن تكون متاحة للجميع — بدون تعقيد، وبدون تكلفة. هدفنا تمكين كل شخص ناطق بالعربية من اتخاذ قرارات مالية مدروسة.</p>
+        <h3 data-i18n="aboutTools">🛠️ ماذا نقدم؟</h3>
+        <ul>
+          <li data-i18n="about_li1">🏦 حاسبة القرض مع جدول سداد كامل</li>
+          <li data-i18n="about_li2">📈 حاسبة الربح والهامش التجاري</li>
+          <li data-i18n="about_li3">💹 حاسبة الفائدة المركبة لمضاعفة الثروة</li>
+          <li data-i18n="about_li4">🎯 حاسبة العائد على الاستثمار (ROI & CAGR)</li>
+          <li data-i18n="about_li5">🏧 حاسبة هدف التوفير الشهري</li>
+          <li data-i18n="about_li6">🌙 حاسبة الزكاة (مال، ذهب، فضة)</li>
+          <li data-i18n="about_li7">🧾 حاسبة الضريبة لأكثر من 6 دول</li>
+          <li data-i18n="about_li8">🎂 حاسبة العمر بالتفصيل الكامل</li>
+          <li data-i18n="about_li9">⚖️ مؤشر كتلة الجسم مع السعرات اليومية</li>
+          <li data-i18n="about_li10">🏷️ حاسبة الخصم والعروض</li>
+        </ul>
+        <h3 data-i18n="aboutWhy">✅ لماذا حاسبة نت؟</h3>
+        <ul>
+          <li data-i18n="aboutWhy1">🔒 لا نجمع أي بيانات شخصية — كل الحسابات تتم محلياً</li>
+          <li data-i18n="aboutWhy2">🌐 يدعم العربية والإنجليزية بالكامل</li>
+          <li data-i18n="aboutWhy3">📱 متجاوب ويعمل على جميع الأجهزة</li>
+          <li data-i18n="aboutWhy4">⚡ سريع ويعمل بدون إنترنت بعد التحميل</li>
+          <li data-i18n="aboutWhy5">🆓 مجاني تمامًا وبدون تسجيل</li>
+        </ul>
+        <h3 data-i18n="aboutContact">📬 تواصل معنا</h3>
+        <div class="contact-box">
+          <span data-i18n="aboutContactText">لأي استفسار أو اقتراح أو إبلاغ عن خطأ، تواصل معنا عبر:</span><br/>
+          📧 <a href="mailto:contact@hasibat.net">contact@hasibat.net</a><br/>
+          <span data-i18n="aboutUpdate">يتم تحديث الموقع بانتظام لإضافة أدوات جديدة.</span>
+        </div>
+      </div>
+      <div class="ad-slot"><div class="ad-label">إعلان / Ad</div><span data-i18n="adPlaceholder">ضع كود AdSense هنا</span></div>
+    </div>
+
+    <!-- ══════════ PRIVACY ══════════ -->
+    <div class="panel" id="panel-privacy">
+      <div class="page-content">
+        <span class="badge" data-i18n="privacyBadge">سياسة الخصوصية / Privacy Policy</span>
+        <h2 data-i18n="privacyTitle">🔒 سياسة الخصوصية</h2>
+        <p data-i18n="privacyDate">آخر تحديث: يناير 2025</p>
+        <p data-i18n="privacyIntro">نحن في حاسبة نت نلتزم بحماية خصوصيتك. هذه الصفحة توضح كيف نتعامل مع بياناتك.</p>
+
+        <h3 data-i18n="privDataCollect">📊 البيانات التي نجمعها</h3>
+        <p data-i18n="privDataCollectText">لا نجمع أي بيانات شخصية تدخلها في الحاسبات. جميع العمليات الحسابية تتم داخل متصفحك مباشرةً ولا تُرسل إلى أي خادم.</p>
+
+        <h3 data-i18n="privCookies">🍪 ملفات الارتباط (Cookies)</h3>
+        <p data-i18n="privCookiesText">قد يستخدم الموقع ملفات ارتباط بسيطة لحفظ تفضيلاتك (الوضع الداكن/الفاتح، اللغة). لا تحتوي هذه الملفات على معلومات شخصية.</p>
+
+        <h3 data-i18n="privAds">📢 الإعلانات</h3>
+        <p data-i18n="privAdsText">يستخدم هذا الموقع Google AdSense لعرض الإعلانات. قد تستخدم Google ملفات ارتباط لعرض إعلانات ذات صلة باهتماماتك. يمكنك زيارة <a href="https://policies.google.com/privacy" target="_blank" style="color:var(--accent)">سياسة خصوصية Google</a> لمزيد من المعلومات.</p>
+
+        <h3 data-i18n="privThirdParty">🔗 روابط خارجية</h3>
+        <p data-i18n="privThirdPartyText">قد يحتوي الموقع على روابط لمواقع خارجية. نحن غير مسؤولين عن سياسات الخصوصية لتلك المواقع.</p>
+
+        <h3 data-i18n="privChildren">👶 خصوصية الأطفال</h3>
+        <p data-i18n="privChildrenText">موقعنا غير موجه للأطفال دون 13 عامًا. لا نجمع عن قصد أي بيانات من الأطفال.</p>
+
+        <h3 data-i18n="privChanges">🔄 تغييرات السياسة</h3>
+        <p data-i18n="privChangesText">قد نحدّث هذه السياسة من وقت لآخر. سيتم نشر أي تغييرات على هذه الصفحة مع تاريخ التحديث.</p>
+
+        <h3 data-i18n="privContact">📬 تواصل معنا</h3>
+        <div class="contact-box">
+          <span data-i18n="privContactText">لأي استفسار حول هذه السياسة:</span><br/>
+          📧 <a href="mailto:privacy@hasibat.net">privacy@hasibat.net</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ad Bottom -->
+    <div class="ad-slot">
+      <div class="ad-label">إعلان / Ad</div>
+      <span data-i18n="adBottom">إعلان سفلي — Bottom Ad</span>
+    </div>
+
+  </div><!-- /content -->
+</main>
+</div>
+
+<!-- ══════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════ -->
+<script>
+/* ════════════════════ TRANSLATIONS */
+const T = {
+  ar: {
+    siteTitle:"📐 حاسبة نت", siteSub:"أدوات حسابية مجانية شاملة",
+    navMain:"الرئيسية", navHome:"الرئيسية", navFinance:"الحاسبات المالية",
+    navLoan:"حاسبة القرض", navProfit:"حاسبة الربح", navCompound:"الفائدة المركبة",
+    navROI:"العائد على الاستثمار", navSavings:"حاسبة التوفير", navZakat:"حاسبة الزكاة",
+    navTax:"حاسبة الضريبة", navOther:"حاسبات أخرى", navAge:"حاسبة العمر",
+    navBMI:"مؤشر كتلة الجسم", navDiscount:"حاسبة الخصم",
+    navInfo:"معلومات", navAbout:"عن الموقع", navPrivacy:"سياسة الخصوصية",
+    sideFooter:"حاسبة نت © 2025 — مجاني 100%",
+    modeLight:"فاتح", modeDark:"داكن",
+    adLabel:"إعلان", adPlaceholder:"ضع كود Google AdSense هنا بعد الموافقة",
+    adMidPage:"إعلان وسط الصفحة", adBottom:"إعلان سفلي",
+    heroTitle:"📐 حاسبة نت",
+    heroSub:"جميع الحاسبات التي تحتاجها في مكان واحد — مجانية، سريعة، بدون إنترنت",
+    statCalcs:"✅ 10 حاسبات", statPrivacy:"🔒 بدون تخزين بيانات",
+    statMobile:"📱 يعمل على الجوال", statBilingual:"🌐 عربي / English",
+    descLoan:"احسب قسطك الشهري وجدول السداد", descProfit:"هامش الربح والسعر المثالي لمنتجك",
+    descCompound:"شاهد كيف تنمو أموالك مع الوقت", descROI:"قيّم جدوى استثماراتك بدقة",
+    descSavings:"خطط لهدفك المالي خطوة بخطوة", descZakat:"زكاة المال والذهب والفضة",
+    descTax:"ضريبة القيمة المضافة لكل دولة", descAge:"عمرك بالسنوات والأشهر والأيام",
+    descBMI:"تحقق من مدى صحة وزنك", descDiscount:"السعر بعد الخصم أو نسبة الخصم",
+    calcNow:"احسب الآن", calcAge2:"احسب العمر",
+    tipLabel:"💡 نصيحة:", noteLabel:"📌 ملاحظة:",
+    years:"سنوات", grams:"جرام", optional:"اختياري",
+    loanAmt:"مبلغ القرض", loanYrs:"المدة", loanRate:"الفائدة السنوية",
+    loanType:"نوع الفائدة", loanReducing:"متناقصة (Reducing)", loanFlat:"ثابتة (Flat)",
+    loanSub:"احسب قسطك الشهري والفائدة الإجمالية وجدول السداد",
+    loanMonthly:"القسط الشهري", loanTotal:"إجمالي المسدد",
+    loanInterest:"إجمالي الفائدة", loanIntPct:"نسبة الفائدة من القرض",
+    loanSchedule:"📋 جدول السداد",
+    loanTip:"كلما قصرت مدة القرض، قلّت الفائدة الإجمالية حتى لو ارتفع القسط الشهري.",
+    loanTblH:["القسط #","القسط الشهري","الأصل","الفائدة","الرصيد المتبقي"],
+    profitSub:"احسب هامش الربح، سعر البيع، أو التكلفة",
+    profitMode:"طريقة الحساب",
+    prM1:"لدي التكلفة والسعر — احسب الهامش",
+    prM2:"لدي التكلفة والهامش — احسب السعر",
+    prM3:"لدي السعر والهامش — احسب التكلفة",
+    profitCost:"تكلفة المنتج", profitPrice:"سعر البيع",
+    profitMarginInp:"الهامش المطلوب", profitNet:"الربح الصافي",
+    profitMarginOut:"هامش الربح", profitMarkup:"العلاوة (Markup)",
+    profitPriceOut:"سعر البيع المقترح", profitCostOut:"التكلفة المحسوبة",
+    profitTip:"الهامش يُحسب من السعر؛ العلاوة (Markup) تُحسب من التكلفة.",
+    compSub:"اكتشف قوة النمو المركب على استثماراتك",
+    compPrincipal:"رأس المال الأولي", compRate:"الفائدة السنوية",
+    compYears:"المدة", compFreq:"تكرار الاحتساب",
+    freqAnnual:"سنوي", freqSemi:"نصف سنوي", freqQ:"ربع سنوي", freqM:"شهري", freqD:"يومي",
+    compMonthly:"إضافة شهرية اختيارية", compFinal:"القيمة النهائية",
+    compOrig:"رأس المال الأصلي", compAdded:"إجمالي الإضافات",
+    compInterest:"الفائدة المركبة", compMult:"مضاعفة رأس المال",
+    compTip:"قاعدة 72: قسّم 72 على نسبة الفائدة لتعرف كم سنة لمضاعفة أموالك.",
+    roiSub:"قيّم ربحية استثمارك — ROI & CAGR",
+    roiCost:"تكلفة الاستثمار", roiReturn:"العائد النهائي", roiYears:"المدة",
+    roiPct:"العائد على الاستثمار", roiProfit:"صافي الربح",
+    roiAnnual:"العائد السنوي (CAGR)", roiVerdict:"التقييم",
+    roiTip:"ROI فوق 15% سنويًا يُعدّ ممتازًا في معظم الأسواق.",
+    savSub:"خطط لتحقيق هدفك المالي",
+    savGoal:"المبلغ الهدف", savCurrent:"المدخرات الحالية",
+    savRate:"العائد السنوي", savYears:"المدة",
+    savMonthly:"المبلغ الشهري المطلوب", savTotalC:"إجمالي ما ستوفره",
+    savInterest:"العائد التراكمي", savFinal:"المبلغ النهائي",
+    savTip:"وفّر 20% من دخلك الشهري (قاعدة 50/30/20) للوصول لأهدافك أسرع.",
+    zakatSub:"احسب زكاة مالك، ذهبك وفضتك",
+    zakatCurr:"العملة المحلية", zakatGoldPrice:"سعر جرام الذهب",
+    zakatGoldPriceSub:"عيار 21 بعملتك",
+    zakatNisabNote:"ℹ️ نصاب الذهب = 85 جرام من الذهب الخالص (عيار 24)",
+    zakatCash:"النقود والمدخرات", zakatGoldG:"الذهب المدّخر",
+    zakatSilverG:"الفضة المدّخرة", zakatRecv:"ديون ومستحقات",
+    zakatDebts:"ديون عليك (تُخصم)",
+    zakatTotal:"إجمالي المال الزكوي", zakatNisab:"النصاب",
+    zakatEligible:"هل بلغت النصاب؟", zakatAmt:"مقدار الزكاة الواجبة (2.5%)",
+    zakatNote:"هذه الحاسبة تعتمد رأي الجمهور. استشر عالمًا للتدقيق في حالتك.",
+    taxSub:"ضريبة القيمة المضافة لجميع الدول",
+    taxRate:"نسبة الضريبة", taxCustom:"مخصص / Custom",
+    taxCustomRate:"نسبة مخصصة", taxMode:"طريقة الحساب",
+    taxAdd:"السعر بدون ضريبة — أضف الضريبة",
+    taxExtract:"السعر شامل الضريبة — استخرج الضريبة",
+    taxAmount:"المبلغ", taxBefore:"المبلغ قبل الضريبة",
+    taxVal:"قيمة الضريبة", taxAfter:"المبلغ الإجمالي",
+    ageSub:"عمرك بالتفصيل: سنوات، أشهر، أيام، ساعات",
+    ageBirth:"تاريخ الميلاد", ageTo:"تاريخ الحساب",
+    ageResult:"عمرك", ageMonths:"إجمالي الأشهر", ageDays:"إجمالي الأيام",
+    ageHours:"إجمالي الساعات", ageNextBday:"أيام على عيد ميلادك القادم",
+    ageDayName:"يوم ميلادك",
+    DAYS:["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"],
+    ageUnit_y:"سنة", ageUnit_m:"شهر", ageUnit_d:"يوم",
+    ageUnit_months:"شهر", ageUnit_days:"يوم", ageUnit_hours:"ساعة",
+    bmiSub:"تحقق من وزنك ومدى صحته",
+    bmiHeight:"الطول", bmiWeight:"الوزن", bmiGender:"الجنس",
+    male:"ذكر", female:"أنثى", bmiAge:"العمر",
+    bmiVal:"مؤشر كتلة الجسم", bmiCat:"التصنيف", bmiIdeal:"الوزن المثالي",
+    bmiDiff:"فرق الوزن", bmiCals:"السعرات اليومية",
+    bmiCats:["نحافة شديدة","نحافة","وزن طبيعي ✅","وزن زائد","سمنة درجة 1","سمنة مفرطة"],
+    bmiOver:"زائد", bmiUnder:"ناقص", bmiPerfect:"مثالي ✅",
+    bmiCalsUnit:"سعرة / يوم (نشاط متوسط)",
+    bmiNote:"BMI مؤشر عام وليس تشخيصًا طبيًا. استشر طبيبك دائمًا.",
+    discSub:"السعر بعد الخصم أو نسبة الخصم",
+    discMode:"نوع الحساب",
+    discApply:"لدي السعر والخصم — احسب السعر النهائي",
+    discFind:"لدي سعرَين — احسب نسبة الخصم",
+    discOriginal:"السعر الأصلي", discPct:"نسبة الخصم",
+    discFinalInp:"السعر بعد الخصم", discFinalOut:"السعر بعد الخصم",
+    discSaved:"المبلغ الموفّر", discPctOut:"نسبة الخصم",
+    discDiscVal:"الخصم المحسوب", discFinalVal:"السعر بعد الخصم",
+    roiVerdicts:["🔴 خسارة","🟡 ضعيف","🟢 جيد","✅ ممتاز","🚀 استثنائي"],
+    aboutBadge:"عن الموقع / About Us", aboutTitle:"📐 حاسبة نت",
+    aboutDesc1:"حاسبة نت هو موقع متخصص يوفر مجموعة شاملة من الأدوات الحسابية المجانية باللغتين العربية والإنجليزية.",
+    aboutMission:"🎯 مهمتنا",
+    aboutMissionText:"نؤمن أن الأدوات المالية يجب أن تكون متاحة للجميع — بدون تعقيد، وبدون تكلفة.",
+    aboutTools:"🛠️ ماذا نقدم؟",
+    about_li1:"🏦 حاسبة القرض مع جدول سداد كامل",
+    about_li2:"📈 حاسبة الربح والهامش التجاري",
+    about_li3:"💹 حاسبة الفائدة المركبة لمضاعفة الثروة",
+    about_li4:"🎯 حاسبة العائد على الاستثمار (ROI & CAGR)",
+    about_li5:"🏧 حاسبة هدف التوفير الشهري",
+    about_li6:"🌙 حاسبة الزكاة (مال، ذهب، فضة)",
+    about_li7:"🧾 حاسبة الضريبة لأكثر من 6 دول",
+    about_li8:"🎂 حاسبة العمر بالتفصيل الكامل",
+    about_li9:"⚖️ مؤشر كتلة الجسم مع السعرات اليومية",
+    about_li10:"🏷️ حاسبة الخصم والعروض",
+    aboutWhy:"✅ لماذا حاسبة نت؟",
+    aboutWhy1:"🔒 لا نجمع أي بيانات شخصية",
+    aboutWhy2:"🌐 يدعم العربية والإنجليزية بالكامل",
+    aboutWhy3:"📱 متجاوب ويعمل على جميع الأجهزة",
+    aboutWhy4:"⚡ سريع ويعمل بدون إنترنت بعد التحميل",
+    aboutWhy5:"🆓 مجاني تمامًا وبدون تسجيل",
+    aboutContact:"📬 تواصل معنا",
+    aboutContactText:"لأي استفسار أو اقتراح، تواصل معنا عبر:",
+    aboutUpdate:"يتم تحديث الموقع بانتظام لإضافة أدوات جديدة.",
+    privacyBadge:"سياسة الخصوصية / Privacy Policy",
+    privacyTitle:"🔒 سياسة الخصوصية",
+    privacyDate:"آخر تحديث: يناير 2025",
+    privacyIntro:"نحن في حاسبة نت نلتزم بحماية خصوصيتك.",
+    privDataCollect:"📊 البيانات التي نجمعها",
+    privDataCollectText:"لا نجمع أي بيانات شخصية. جميع العمليات الحسابية تتم داخل متصفحك مباشرةً.",
+    privCookies:"🍪 ملفات الارتباط (Cookies)",
+    privCookiesText:"قد يستخدم الموقع ملفات ارتباط بسيطة لحفظ تفضيلاتك. لا تحتوي على معلومات شخصية.",
+    privAds:"📢 الإعلانات",
+    privAdsText:"يستخدم هذا الموقع Google AdSense لعرض الإعلانات.",
+    privThirdParty:"🔗 روابط خارجية",
+    privThirdPartyText:"قد يحتوي الموقع على روابط لمواقع خارجية. نحن غير مسؤولين عن سياساتها.",
+    privChildren:"👶 خصوصية الأطفال",
+    privChildrenText:"موقعنا غير موجه للأطفال دون 13 عامًا.",
+    privChanges:"🔄 تغييرات السياسة",
+    privChangesText:"قد نحدّث هذه السياسة من وقت لآخر مع نشر تاريخ التحديث.",
+    privContact:"📬 تواصل معنا",
+    privContactText:"لأي استفسار حول هذه السياسة:",
+  },
+  en: {
+    siteTitle:"📐 CalcNet", siteSub:"Free All-in-One Calculators",
+    navMain:"Main", navHome:"Home", navFinance:"Financial Calculators",
+    navLoan:"Loan Calculator", navProfit:"Profit Calculator", navCompound:"Compound Interest",
+    navROI:"ROI Calculator", navSavings:"Savings Calculator", navZakat:"Zakat Calculator",
+    navTax:"Tax Calculator", navOther:"Other Calculators", navAge:"Age Calculator",
+    navBMI:"BMI Calculator", navDiscount:"Discount Calculator",
+    navInfo:"Info", navAbout:"About", navPrivacy:"Privacy Policy",
+    sideFooter:"CalcNet © 2025 — 100% Free",
+    modeLight:"Light", modeDark:"Dark",
+    adLabel:"Advertisement", adPlaceholder:"Place Google AdSense code here after approval",
+    adMidPage:"Mid-page Ad", adBottom:"Bottom Ad",
+    heroTitle:"📐 CalcNet",
+    heroSub:"All the calculators you need in one place — free, fast, works offline",
+    statCalcs:"✅ 10 Calculators", statPrivacy:"🔒 No data stored",
+    statMobile:"📱 Mobile friendly", statBilingual:"🌐 Arabic / English",
+    descLoan:"Calculate monthly payments and amortization", descProfit:"Profit margin and ideal selling price",
+    descCompound:"Watch your money grow over time", descROI:"Evaluate your investment profitability",
+    descSavings:"Plan your financial goal step by step", descZakat:"Zakat on cash, gold & silver",
+    descTax:"VAT calculator for all countries", descAge:"Your age in years, months, days",
+    descBMI:"Check if your weight is healthy", descDiscount:"Price after discount or discount rate",
+    calcNow:"Calculate", calcAge2:"Calculate Age",
+    tipLabel:"💡 Tip:", noteLabel:"📌 Note:",
+    years:"years", grams:"grams", optional:"optional",
+    loanAmt:"Loan Amount", loanYrs:"Duration", loanRate:"Annual Interest Rate",
+    loanType:"Interest Type", loanReducing:"Reducing Balance", loanFlat:"Flat Rate",
+    loanSub:"Calculate monthly payment, total interest, and amortization schedule",
+    loanMonthly:"Monthly Payment", loanTotal:"Total Amount Paid",
+    loanInterest:"Total Interest", loanIntPct:"Interest as % of Loan",
+    loanSchedule:"📋 Amortization Table",
+    loanTip:"A shorter loan term means less total interest, even if the monthly payment is higher.",
+    loanTblH:["Month #","Monthly Payment","Principal","Interest","Balance"],
+    profitSub:"Calculate profit margin, selling price, or cost",
+    profitMode:"Calculation Mode",
+    prM1:"I have cost & price — calculate margin",
+    prM2:"I have cost & margin — calculate price",
+    prM3:"I have price & margin — calculate cost",
+    profitCost:"Product Cost", profitPrice:"Selling Price",
+    profitMarginInp:"Required Margin", profitNet:"Net Profit",
+    profitMarginOut:"Profit Margin", profitMarkup:"Markup",
+    profitPriceOut:"Suggested Selling Price", profitCostOut:"Calculated Cost",
+    profitTip:"Margin is calculated from price; Markup is calculated from cost.",
+    compSub:"Discover the power of compound growth on your investments",
+    compPrincipal:"Initial Principal", compRate:"Annual Interest Rate",
+    compYears:"Duration", compFreq:"Compounding Frequency",
+    freqAnnual:"Annually", freqSemi:"Semi-annually", freqQ:"Quarterly", freqM:"Monthly", freqD:"Daily",
+    compMonthly:"Optional Monthly Contribution", compFinal:"Final Value",
+    compOrig:"Original Principal", compAdded:"Total Contributions",
+    compInterest:"Compound Interest Earned", compMult:"Capital Multiplier",
+    compTip:"Rule of 72: Divide 72 by the interest rate to know how many years to double your money.",
+    roiSub:"Evaluate your investment profitability — ROI & CAGR",
+    roiCost:"Investment Cost", roiReturn:"Final Return", roiYears:"Duration",
+    roiPct:"Return on Investment", roiProfit:"Net Profit",
+    roiAnnual:"Annual Return (CAGR)", roiVerdict:"Verdict",
+    roiTip:"An ROI above 15% per year is considered excellent in most markets.",
+    savSub:"Plan to achieve your financial goal",
+    savGoal:"Target Amount", savCurrent:"Current Savings",
+    savRate:"Annual Return Rate", savYears:"Duration",
+    savMonthly:"Required Monthly Savings", savTotalC:"Total You Will Save",
+    savInterest:"Cumulative Return", savFinal:"Final Amount",
+    savTip:"Save 20% of your monthly income (50/30/20 rule) to reach your goals faster.",
+    zakatSub:"Calculate Zakat on cash, gold and silver",
+    zakatCurr:"Local Currency", zakatGoldPrice:"Gold Price per Gram",
+    zakatGoldPriceSub:"21K in your local currency",
+    zakatNisabNote:"ℹ️ Nisab = 85 grams of pure gold (24K)",
+    zakatCash:"Cash & Savings", zakatGoldG:"Gold Savings",
+    zakatSilverG:"Silver Savings", zakatRecv:"Receivables (owed to you)",
+    zakatDebts:"Debts (owed by you, deducted)",
+    zakatTotal:"Total Zakatable Wealth", zakatNisab:"Nisab Value",
+    zakatEligible:"Did you reach Nisab?", zakatAmt:"Zakat Due (2.5%)",
+    zakatNote:"This calculator follows the majority opinion. Consult a scholar for your specific situation.",
+    taxSub:"VAT calculator for all countries",
+    taxRate:"Tax Rate", taxCustom:"Custom",
+    taxCustomRate:"Custom Rate", taxMode:"Calculation Mode",
+    taxAdd:"Price without tax — add tax",
+    taxExtract:"Price includes tax — extract tax",
+    taxAmount:"Amount", taxBefore:"Amount Before Tax",
+    taxVal:"Tax Value", taxAfter:"Total (incl. tax)",
+    ageSub:"Your age in detail: years, months, days, hours",
+    ageBirth:"Date of Birth", ageTo:"As of Date",
+    ageResult:"Your Age", ageMonths:"Total Months", ageDays:"Total Days",
+    ageHours:"Total Hours", ageNextBday:"Days Until Next Birthday",
+    ageDayName:"Day of Birth",
+    DAYS:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+    ageUnit_y:"yr", ageUnit_m:"mo", ageUnit_d:"d",
+    ageUnit_months:"months", ageUnit_days:"days", ageUnit_hours:"hours",
+    bmiSub:"Check if your weight is healthy",
+    bmiHeight:"Height", bmiWeight:"Weight", bmiGender:"Gender",
+    male:"Male", female:"Female", bmiAge:"Age",
+    bmiVal:"BMI Value", bmiCat:"Category", bmiIdeal:"Ideal Weight Range",
+    bmiDiff:"Weight Difference", bmiCals:"Daily Calories",
+    bmiCats:["Severe Underweight","Underweight","Normal ✅","Overweight","Obese Class I","Severely Obese"],
+    bmiOver:"over", bmiUnder:"under", bmiPerfect:"Ideal ✅",
+    bmiCalsUnit:"kcal/day (moderate activity)",
+    bmiNote:"BMI is a general indicator, not a medical diagnosis. Always consult your doctor.",
+    discSub:"Price after discount or calculate discount rate",
+    discMode:"Calculation Type",
+    discApply:"I have price & discount — get final price",
+    discFind:"I have two prices — get discount rate",
+    discOriginal:"Original Price", discPct:"Discount Rate",
+    discFinalInp:"Price After Discount", discFinalOut:"Price After Discount",
+    discSaved:"Amount Saved", discPctOut:"Discount Rate",
+    discDiscVal:"Calculated Discount", discFinalVal:"Price After Discount",
+    roiVerdicts:["🔴 Loss","🟡 Poor","🟢 Good","✅ Excellent","🚀 Exceptional"],
+    aboutBadge:"About Us / عن الموقع", aboutTitle:"📐 CalcNet",
+    aboutDesc1:"CalcNet is a free, comprehensive online calculator suite available in both Arabic and English.",
+    aboutMission:"🎯 Our Mission",
+    aboutMissionText:"We believe financial tools should be accessible to everyone — without complexity or cost.",
+    aboutTools:"🛠️ What We Offer",
+    about_li1:"🏦 Loan calculator with full amortization table",
+    about_li2:"📈 Profit & margin calculator",
+    about_li3:"💹 Compound interest calculator",
+    about_li4:"🎯 ROI & CAGR calculator",
+    about_li5:"🏧 Savings goal planner",
+    about_li6:"🌙 Zakat calculator (cash, gold, silver)",
+    about_li7:"🧾 VAT calculator for 6+ countries",
+    about_li8:"🎂 Age calculator with birthday countdown",
+    about_li9:"⚖️ BMI calculator with daily calories",
+    about_li10:"🏷️ Discount calculator",
+    aboutWhy:"✅ Why CalcNet?",
+    aboutWhy1:"🔒 No personal data collected — all calculations are local",
+    aboutWhy2:"🌐 Full Arabic & English support",
+    aboutWhy3:"📱 Responsive on all devices",
+    aboutWhy4:"⚡ Fast — works offline after first load",
+    aboutWhy5:"🆓 Completely free, no registration",
+    aboutContact:"📬 Contact Us",
+    aboutContactText:"For any questions, suggestions, or bug reports:",
+    aboutUpdate:"We regularly update the site to add new tools.",
+    privacyBadge:"Privacy Policy / سياسة الخصوصية",
+    privacyTitle:"🔒 Privacy Policy",
+    privacyDate:"Last updated: January 2025",
+    privacyIntro:"At CalcNet, we are committed to protecting your privacy.",
+    privDataCollect:"📊 Data We Collect",
+    privDataCollectText:"We do not collect any personal data you enter into the calculators. All computations happen locally in your browser.",
+    privCookies:"🍪 Cookies",
+    privCookiesText:"We may use simple cookies to save preferences (dark/light mode, language). These contain no personal information.",
+    privAds:"📢 Advertising",
+    privAdsText:"This site uses Google AdSense to display ads. Google may use cookies to show relevant ads based on your interests.",
+    privThirdParty:"🔗 Third-Party Links",
+    privThirdPartyText:"The site may contain links to external websites. We are not responsible for their privacy policies.",
+    privChildren:"👶 Children's Privacy",
+    privChildrenText:"Our site is not directed at children under 13. We do not knowingly collect data from children.",
+    privChanges:"🔄 Policy Changes",
+    privChangesText:"We may update this policy from time to time. Changes will be posted on this page with an updated date.",
+    privContact:"📬 Contact Us",
+    privContactText:"For questions about this privacy policy:",
+  }
+};
+
+/* ════════════════════ STATE */
+let lang = 'ar', isDark = true, showTbl = false;
+
+/* ════════════════════ LANG */
+function setLang(l){
+  lang = l;
+  const isAr = l === 'ar';
+  const html  = document.documentElement;
+  html.setAttribute('lang', l);
+  html.setAttribute('dir', isAr ? 'rtl' : 'ltr');
+  document.getElementById('langBtn').textContent = isAr ? 'EN' : 'ع';
+  document.body.style.fontFamily = isAr ? "'Cairo',sans-serif" : "'Plus Jakarta Sans',sans-serif";
+  // Update all data-i18n elements
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if(T[l][key] && typeof T[l][key]==='string') el.textContent = T[l][key];
+  });
+  // Re-render topbar title
+  const active = document.querySelector('.nav-btn.active');
+  if(active){
+    const panelId = active.id.replace('nav-','');
+    const titleKey = 'nav' + panelId.charAt(0).toUpperCase() + panelId.slice(1);
+    const mapped = {home:'navHome',loan:'navLoan',profit:'navProfit',compound:'navCompound',
+      roi:'navROI',savings:'navSavings',zakat:'navZakat',tax:'navTax',
+      age:'navAge',bmi:'navBMI',discount:'navDiscount',about:'navAbout',privacy:'navPrivacy'};
+    const k = mapped[panelId];
+    if(k && T[l][k]) document.getElementById('topbarTitle').textContent = T[l][k];
+  }
+  // Refresh mode label
+  document.getElementById('modeLabel').textContent = T[l][isDark ? 'modeDark' : 'modeLight'];
+}
+function toggleLang(){ setLang(lang === 'ar' ? 'en' : 'ar'); }
+
+/* ════════════════════ NAVIGATION */
+const panelTitleMap = {
+  home:'navHome',loan:'navLoan',profit:'navProfit',compound:'navCompound',
+  roi:'navROI',savings:'navSavings',zakat:'navZakat',tax:'navTax',
+  age:'navAge',bmi:'navBMI',discount:'navDiscount',about:'navAbout',privacy:'navPrivacy'
+};
+function showPanel(id){
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  document.getElementById('nav-'+id).classList.add('active');
+  const k = panelTitleMap[id];
+  document.getElementById('topbarTitle').textContent = T[lang][k] || id;
+  closeSidebar();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ════════════════════ SIDEBAR */
+function toggleSidebar(){ document.getElementById('sidebar').classList.toggle('open'); document.getElementById('overlay').classList.toggle('open'); }
+function closeSidebar(){ document.getElementById('sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('open'); }
+
+/* ════════════════════ MODE */
+function toggleMode(){
+  isDark = !isDark;
+  document.documentElement.classList.toggle('light', !isDark);
+  document.getElementById('modeIcon').textContent = isDark ? '☀️' : '🌙';
+  document.getElementById('modeLabel').textContent = T[lang][isDark ? 'modeDark' : 'modeLight'];
+}
+
+/* ════════════════════ UTILITIES */
+const $ = id => document.getElementById(id);
+const v = id => parseFloat($( id).value) || 0;
+const fmt = n => isNaN(n) ? '—' : n.toLocaleString(lang==='ar'?'ar-EG':'en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const fmtN = n => Math.round(n).toLocaleString(lang==='ar'?'ar-EG':'en-US');
+const pct  = n => fmt(n) + '%';
+
+/* ════════════════════ 1. LOAN */
+function calcLoan(){
+  const P=v('ln-amt'), Y=v('ln-yrs'), r=v('ln-rate'), type=$('ln-type').value;
+  if(!P||!Y){alert(lang==='ar'?'أدخل مبلغ القرض والمدة':'Enter loan amount and duration'); return;}
+  let monthly,totalPaid,totalInterest;
+  if(type==='flat'){
+    totalInterest=P*(r/100)*Y; totalPaid=P+totalInterest; monthly=totalPaid/(Y*12);
+  } else {
+    if(r===0){monthly=P/(Y*12);totalPaid=P;totalInterest=0;}
+    else{const mr=r/100/12,n=Y*12;monthly=P*mr*Math.pow(1+mr,n)/(Math.pow(1+mr,n)-1);totalPaid=monthly*n;totalInterest=totalPaid-P;}
+  }
+  $('ln-monthly').textContent=fmt(monthly);
+  $('ln-total').textContent=fmt(totalPaid);
+  $('ln-interest').textContent=fmt(totalInterest);
+  $('ln-int-pct').textContent=pct((totalInterest/P)*100);
+  $('ln-res').classList.add('show');
+  $('ln-tbl-wrap').style.display='block';
+  // Build table
+  if(type==='reducing'&&r>0){
+    const mr=r/100/12,n=Y*12; let bal=P,rows='';
+    const h=T[lang].loanTblH;
+    for(let i=1;i<=Math.min(n,36);i++){
+      const ip=bal*mr,pp=monthly-ip; bal=Math.max(0,bal-pp);
+      rows+=`<tr><td>${fmtN(i)}</td><td>${fmt(monthly)}</td><td>${fmt(pp)}</td><td>${fmt(ip)}</td><td>${fmt(bal)}</td></tr>`;
+    }
+    if(n>36) rows+=`<tr><td colspan="5" style="text-align:center;color:var(--text3)">... ${fmtN(n-36)} ${lang==='ar'?'قسط متبقٍ':'more months'}</td></tr>`;
+    $('ln-tbl').innerHTML=`<table><thead><tr>${h.map(x=>`<th>${x}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table>`;
+  }
+}
+function toggleLoanTable(){showTbl=!showTbl;$('ln-tbl').style.display=showTbl?'block':'none';}
+
+/* ════════════════════ 2. PROFIT */
+function updProfitMode(){
+  const m=$('pr-mode').value;
+  $('pr-margin-f').style.display = m==='margin'?'none':'block';
+  $('pr-price-f').style.display  = m==='cost'?'none':'block';
+  $('pr-cost-f').style.display   = m==='price'?'none':'block';
+  $('pr-price-row').style.display= m==='margin'?'none':'flex';
+  $('pr-cost-row').style.display = m==='cost'?'flex':'none';
+}
+function calcProfit(){
+  const m=$('pr-mode').value; let cost,price,margin,net,markup;
+  if(m==='margin'){
+    cost=v('pr-cost'); price=v('pr-price');
+    if(!cost||!price){alert(lang==='ar'?'أدخل التكلفة والسعر':'Enter cost and price');return;}
+    net=price-cost; margin=(net/price)*100; markup=(net/cost)*100;
+    $('pr-price-o').textContent=fmt(price);
+  } else if(m==='price'){
+    cost=v('pr-cost'); margin=v('pr-margin-i');
+    if(!cost||!margin){alert(lang==='ar'?'أدخل التكلفة والهامش':'Enter cost and margin');return;}
+    price=cost/(1-margin/100); net=price-cost; markup=(net/cost)*100;
+    $('pr-price-o').textContent=fmt(price);
+  } else {
+    price=v('pr-price'); margin=v('pr-margin-i');
+    if(!price||!margin){alert(lang==='ar'?'أدخل السعر والهامش':'Enter price and margin');return;}
+    net=price*(margin/100); cost=price-net; markup=(net/cost)*100;
+    $('pr-cost-o').textContent=fmt(cost);
+  }
+  $('pr-net').textContent=fmt(net); $('pr-margin-o').textContent=pct(margin); $('pr-markup').textContent=pct(markup);
+  $('pr-res').classList.add('show');
+}
+
+/* ════════════════════ 3. COMPOUND */
+function calcCompound(){
+  const P=v('ci-p'),r=v('ci-r')/100,n=parseInt($('ci-f').value),t=v('ci-y'),pm=v('ci-m');
+  if(!P&&!pm){alert(lang==='ar'?'أدخل رأس المال':'Enter principal');return;}
+  const lump=P*Math.pow(1+r/n,n*t);
+  const mr=r/12,months=t*12;
+  const pmFV=pm>0&&mr>0?pm*(Math.pow(1+mr,months)-1)/mr:pm*months;
+  const final=lump+pmFV,totalAdd=pm*months,interest=final-P-totalAdd;
+  $('ci-final').textContent=fmt(final); $('ci-orig').textContent=fmt(P);
+  $('ci-added').textContent=fmt(totalAdd); $('ci-int').textContent=fmt(interest);
+  $('ci-mult').textContent=P>0?`${(final/P).toFixed(2)}×`:'—';
+  $('ci-res').classList.add('show');
+}
+
+/* ════════════════════ 4. ROI */
+function calcROI(){
+  const c=v('roi-c'),r=v('roi-r'),y=v('roi-y');
+  if(!c||!r){alert(lang==='ar'?'أدخل التكلفة والعائد':'Enter cost and return');return;}
+  const profit=r-c,roi=(profit/c)*100;
+  const cagr=y>0?(Math.pow(r/c,1/y)-1)*100:null;
+  $('roi-pct').textContent=pct(roi); $('roi-profit').textContent=fmt(profit);
+  $('roi-annual').textContent=cagr!==null?pct(cagr):(lang==='ar'?'أدخل المدة':'Enter duration');
+  const v2=T[lang].roiVerdicts;
+  $('roi-verdict').textContent=roi<0?v2[0]:roi<10?v2[1]:roi<20?v2[2]:roi<50?v2[3]:v2[4];
+  $('roi-res').classList.add('show');
+}
+
+/* ════════════════════ 5. SAVINGS */
+function calcSavings(){
+  const goal=v('sv-g'),curr=v('sv-c'),rate=v('sv-r')/100/12,months=v('sv-y')*12;
+  if(!goal||!months){alert(lang==='ar'?'أدخل الهدف والمدة':'Enter goal and duration');return;}
+  const needed=goal-curr*Math.pow(1+rate,months);
+  const monthly=rate===0?needed/months:needed*rate/(Math.pow(1+rate,months)-1);
+  const total=Math.max(0,monthly)*months,invested=curr+total;
+  const final=curr*Math.pow(1+rate,months)+(rate>0?Math.max(0,monthly)*(Math.pow(1+rate,months)-1)/rate:Math.max(0,monthly)*months);
+  $('sv-monthly').textContent=fmt(Math.max(0,monthly)); $('sv-total').textContent=fmt(total);
+  $('sv-int').textContent=fmt(final-invested); $('sv-final').textContent=fmt(final);
+  $('sv-res').classList.add('show');
+}
+
+/* ════════════════════ 6. ZAKAT */
+function calcZakat(){
+  const gp=v('zk-gp'),cash=v('zk-cash'),goldG=v('zk-gold'),silvG=v('zk-silv'),recv=v('zk-recv'),debt=v('zk-debt');
+  if(!gp){alert(lang==='ar'?'أدخل سعر جرام الذهب':'Enter gold price per gram');return;}
+  const nisab=85*gp/0.875;
+  const goldVal=goldG*gp,silvVal=silvG*(gp/80);
+  const total=cash+goldVal+silvVal+recv-debt;
+  const eligible=total>=nisab,zakatAmt=eligible?total*0.025:0;
+  $('zk-total').textContent=fmt(total); $('zk-nisab').textContent=fmt(nisab);
+  $('zk-elig').textContent=eligible?(lang==='ar'?'✅ نعم، الزكاة واجبة':'✅ Yes, Zakat is due'):(lang==='ar'?'❌ لم تبلغ النصاب بعد':'❌ Nisab not reached');
+  $('zk-elig').className='res-val '+(eligible?'c-success':'c-danger');
+  $('zk-amt').textContent=eligible?fmt(zakatAmt):(lang==='ar'?'لا زكاة':'No Zakat due');
+  $('zk-res').classList.add('show');
+}
+
+/* ════════════════════ 7. TAX */
+function updTaxCustom(){$('tx-cust-f').style.display=$('tx-rate').value==='custom'?'block':'none';}
+function calcTax(){
+  const rateStr=$('tx-rate').value;
+  const rate=rateStr==='custom'?v('tx-cust'):parseFloat(rateStr);
+  const mode=$('tx-mode').value,amt=v('tx-amt');
+  if(!amt){alert(lang==='ar'?'أدخل المبلغ':'Enter amount');return;}
+  let before,taxVal,after;
+  if(mode==='add'){before=amt;taxVal=amt*rate/100;after=amt+taxVal;}
+  else{after=amt;before=amt/(1+rate/100);taxVal=after-before;}
+  $('tx-before').textContent=fmt(before); $('tx-val').textContent=fmt(taxVal); $('tx-after').textContent=fmt(after);
+  $('tx-res').classList.add('show');
+}
+
+/* ════════════════════ 8. AGE */
+function calcAge(){
+  const bs=$('ag-birth').value;
+  if(!bs){alert(lang==='ar'?'أدخل تاريخ الميلاد':'Enter date of birth');return;}
+  const birth=new Date(bs),toStr=$('ag-to').value,to=toStr?new Date(toStr):new Date();
+  if(birth>to){alert(lang==='ar'?'تاريخ الميلاد لا يمكن أن يكون في المستقبل':'Birth date cannot be in the future');return;}
+  let y=to.getFullYear()-birth.getFullYear(),m=to.getMonth()-birth.getMonth(),d=to.getDate()-birth.getDate();
+  if(d<0){m--;d+=new Date(to.getFullYear(),to.getMonth(),0).getDate();}
+  if(m<0){y--;m+=12;}
+  const totalDays=Math.floor((to-birth)/86400000),totalMonths=y*12+m;
+  const next=new Date(to.getFullYear(),birth.getMonth(),birth.getDate());
+  if(next<=to)next.setFullYear(to.getFullYear()+1);
+  const daysToNext=Math.ceil((next-to)/86400000);
+  const L=T[lang];
+  $('ag-main').textContent=`${fmtN(y)} ${L.ageUnit_y}, ${fmtN(m)} ${L.ageUnit_m}, ${fmtN(d)} ${L.ageUnit_d}`;
+  $('ag-months').textContent=`${fmtN(totalMonths)} ${L.ageUnit_months}`;
+  $('ag-days').textContent=`${fmtN(totalDays)} ${L.ageUnit_days}`;
+  $('ag-hours').textContent=`${fmtN(totalDays*24)} ${L.ageUnit_hours}`;
+  $('ag-next').textContent=`${fmtN(daysToNext)} ${L.ageUnit_days}`;
+  $('ag-dayname').textContent=L.DAYS[birth.getDay()];
+  $('ag-res').classList.add('show');
+}
+
+/* ════════════════════ 9. BMI */
+function calcBMI(){
+  const h=v('bm-h')/100,w=v('bm-w'),age=v('bm-age'),gen=$('bm-gen').value;
+  if(!h||!w){alert(lang==='ar'?'أدخل الطول والوزن':'Enter height and weight');return;}
+  const bmi=w/(h*h); let catIdx;
+  if(bmi<16)catIdx=0;else if(bmi<18.5)catIdx=1;else if(bmi<25)catIdx=2;else if(bmi<30)catIdx=3;else if(bmi<35)catIdx=4;else catIdx=5;
+  const iL=18.5*h*h,iH=24.9*h*h,avg=(iL+iH)/2,diff=w-avg;
+  let bmr=gen==='m'?10*w+6.25*(h*100)-5*age+5:10*w+6.25*(h*100)-5*age-161;
+  const tdee=Math.round(bmr*1.55);
+  const L=T[lang];
+  $('bm-val').textContent=bmi.toFixed(1);
+  $('bm-val').style.color=catIdx<=1?'var(--blue)':catIdx===2?'var(--success)':catIdx===3?'var(--gold)':'var(--danger)';
+  $('bm-cat').textContent=L.bmiCats[catIdx];
+  $('bm-cat').className='res-val '+(catIdx===2?'c-success':catIdx<=1?'c-blue':catIdx===3?'c-gold':'c-danger');
+  $('bm-ideal').textContent=`${fmt(iL)} – ${fmt(iH)} kg`;
+  const diffAbs=Math.abs(diff);
+  $('bm-diff').textContent=diff>0.5?`${L.bmiOver} ${fmt(diffAbs)} kg`:diff<-0.5?`${L.bmiUnder} ${fmt(diffAbs)} kg`:L.bmiPerfect;
+  $('bm-diff').className='res-val '+(Math.abs(diff)<2?'c-success':diff>0?'c-danger':'c-blue');
+  $('bm-cals').textContent=`${fmtN(tdee)} ${L.bmiCalsUnit}`;
+  $('bm-res').classList.add('show');
+}
+
+/* ════════════════════ 10. DISCOUNT */
+function updDiscMode(){
+  const m=$('dc-mode').value;
+  $('dc-pct-f').style.display=m==='find'?'none':'block';
+  $('dc-final-f').style.display=m==='find'?'block':'none';
+}
+function calcDiscount(){
+  const m=$('dc-mode').value,orig=v('dc-orig');
+  if(!orig){alert(lang==='ar'?'أدخل السعر الأصلي':'Enter original price');return;}
+  let pctV,finalP,saved;
+  const L=T[lang];
+  if(m==='apply'){
+    pctV=v('dc-pct'); saved=orig*pctV/100; finalP=orig-saved;
+    $('dc-main-lbl').textContent=L.discFinalOut;
+    $('dc-main-val').textContent=fmt(finalP);
+    $('dc-sec-lbl').textContent=L.discPctOut;
+    $('dc-sec-val').textContent=pct(pctV);
+  } else {
+    finalP=v('dc-final'); saved=orig-finalP; pctV=(saved/orig)*100;
+    $('dc-main-lbl').textContent=L.discDiscVal;
+    $('dc-main-val').textContent=pct(pctV);
+    $('dc-sec-lbl').textContent=L.discFinalVal;
+    $('dc-sec-val').textContent=fmt(finalP);
+  }
+  $('dc-saved').textContent=fmt(saved);
+  $('dc-res').classList.add('show');
+}
+
+/* ════════════════════ INIT */
+$('ag-to').value = new Date().toISOString().split('T')[0];
+setLang('ar'); // default Arabic
+</script>
+</body>
+</html>
