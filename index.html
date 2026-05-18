@@ -5,22 +5,78 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Free Online Tools | Calculator Hub</title>
+<title>Free Online Tools | Pro Calculator Hub</title>
 
 <style>
 body{margin:0;font-family:Arial;background:#0f1117;color:#fff}
 .layout{display:flex}
-.sidebar{width:230px;background:#111;height:100vh;padding:15px;position:fixed}
-.sidebar button{display:block;width:100%;margin:8px 0;padding:10px;background:none;border:none;color:#ccc;cursor:pointer}
+
+/* SIDEBAR */
+.sidebar{
+width:240px;background:#111;height:100vh;padding:20px;position:fixed
+}
+.sidebar h2{color:#00c2a8;margin-bottom:15px}
+.sidebar button{
+display:block;width:100%;margin:6px 0;padding:10px;
+background:none;border:none;color:#aaa;cursor:pointer;text-align:left;
+border-radius:8px
+}
 .sidebar button:hover{background:#222;color:#00c2a8}
 
-.main{margin-left:230px}
-.header{text-align:center;padding:15px;background:#111}
-.content{max-width:900px;margin:auto;padding:20px}
-.card{background:#1a1b26;padding:20px;margin:15px 0;border-radius:12px}
+/* MAIN */
+.main{margin-left:240px;width:100%}
+.header{background:#111;padding:15px;text-align:center}
 
-input,button{padding:10px;margin:5px;width:100%}
-button{background:#00c2a8;border:none;color:#fff;border-radius:8px;cursor:pointer}
+.content{max-width:900px;margin:auto;padding:20px}
+
+/* CARDS */
+.card{
+background:#1a1b26;
+padding:20px;
+margin-bottom:20px;
+border-radius:14px;
+box-shadow:0 0 12px rgba(0,0,0,0.5);
+}
+
+h2{margin-top:0;color:#00c2a8}
+
+input{
+width:100%;
+padding:10px;
+margin:6px 0;
+background:#111;
+border:1px solid #333;
+border-radius:8px;
+color:#fff;
+}
+
+button.calc{
+width:100%;
+padding:12px;
+margin-top:10px;
+background:#00c2a8;
+border:none;
+border-radius:8px;
+color:#fff;
+font-weight:bold;
+cursor:pointer;
+}
+button.calc:hover{background:#00e0c2}
+
+.result{
+margin-top:15px;
+padding:10px;
+background:#111;
+border-radius:8px;
+}
+
+.ad{
+background:#222;
+padding:20px;
+text-align:center;
+border-radius:10px;
+margin:20px 0;
+}
 </style>
 
 </head>
@@ -29,18 +85,19 @@ button{background:#00c2a8;border:none;color:#fff;border-radius:8px;cursor:pointe
 
 <div class="layout">
 
-<!-- SIDEBAR -->
 <div class="sidebar">
-<button onclick="show('home')">Home</button>
-<button onclick="show('loan')">Loan</button>
-<button onclick="show('profit')">Profit</button>
-<button onclick="show('roi')">ROI</button>
-<button onclick="show('bmi')">BMI</button>
-<button onclick="show('age')">Age</button>
-<button onclick="show('tax')">Tax</button>
+<h2>Tools</h2>
+
+<button onclick="show('home')">🏠 Home</button>
+<button onclick="show('loan')">💰 Loan</button>
+<button onclick="show('profit')">📈 Profit</button>
+<button onclick="show('roi')">🎯 ROI</button>
+<button onclick="show('bmi')">⚖️ BMI</button>
+<button onclick="show('age')">🎂 Age</button>
+<button onclick="show('tax')">🧾 Tax</button>
+
 </div>
 
-<!-- MAIN -->
 <div class="main">
 
 <div class="header">
@@ -52,61 +109,75 @@ button{background:#00c2a8;border:none;color:#fff;border-radius:8px;cursor:pointe
 <!-- HOME -->
 <div id="home" class="card">
 <h2>Welcome</h2>
-<p>Use simple calculators quickly and easily.</p>
+<p>This platform provides advanced calculators for everyday use.</p>
+
+<div class="ad">AdSense Space</div>
 </div>
 
 <!-- LOAN -->
 <div id="loan" class="card" style="display:none">
-<h2>Loan</h2>
-<input id="l1" placeholder="Amount">
-<input id="l2" placeholder="Rate %">
-<input id="l3" placeholder="Years">
-<button onclick="loan()">Calculate</button>
-<p id="lr"></p>
+<h2>Loan Calculator</h2>
+
+<input id="loanAmount" type="number" placeholder="Loan Amount">
+<input id="loanRate" type="number" placeholder="Interest %">
+<input id="loanYears" type="number" placeholder="Years">
+
+<button class="calc" onclick="calcLoan()">Calculate</button>
+<div class="result" id="loanResult"></div>
 </div>
 
 <!-- PROFIT -->
 <div id="profit" class="card" style="display:none">
-<h2>Profit</h2>
-<input id="p1" placeholder="Cost">
-<input id="p2" placeholder="Price">
-<button onclick="profit()">Calculate</button>
-<p id="pr"></p>
+<h2>Profit Calculator</h2>
+
+<input id="cost" type="number" placeholder="Cost">
+<input id="sell" type="number" placeholder="Selling Price">
+
+<button class="calc" onclick="calcProfit()">Calculate</button>
+<div class="result" id="profitResult"></div>
 </div>
 
 <!-- ROI -->
 <div id="roi" class="card" style="display:none">
-<h2>ROI</h2>
-<input id="r1" placeholder="Investment">
-<input id="r2" placeholder="Return">
-<button onclick="roi()">Calculate</button>
-<p id="rr"></p>
+<h2>ROI Calculator</h2>
+
+<input id="invest" type="number" placeholder="Investment">
+<input id="returnVal" type="number" placeholder="Return">
+
+<button class="calc" onclick="calcROI()">Calculate</button>
+<div class="result" id="roiResult"></div>
 </div>
 
 <!-- BMI -->
 <div id="bmi" class="card" style="display:none">
-<h2>BMI</h2>
-<input id="b1" placeholder="Height cm">
-<input id="b2" placeholder="Weight kg">
-<button onclick="bmi()">Calculate</button>
-<p id="br"></p>
+<h2>BMI Calculator</h2>
+
+<input id="height" type="number" placeholder="Height (cm)">
+<input id="weight" type="number" placeholder="Weight (kg)">
+
+<button class="calc" onclick="calcBMI()">Calculate</button>
+<div class="result" id="bmiResult"></div>
 </div>
 
 <!-- AGE -->
 <div id="age" class="card" style="display:none">
-<h2>Age</h2>
-<input id="a1" type="date">
-<button onclick="age()">Calculate</button>
-<p id="ar"></p>
+<h2>Age Calculator</h2>
+
+<input id="birthdate" type="date">
+
+<button class="calc" onclick="calcAge()">Calculate</button>
+<div class="result" id="ageResult"></div>
 </div>
 
 <!-- TAX -->
 <div id="tax" class="card" style="display:none">
-<h2>Tax</h2>
-<input id="t1" placeholder="Amount">
-<input id="t2" placeholder="Tax %">
-<button onclick="tax()">Calculate</button>
-<p id="tr"></p>
+<h2>Tax Calculator</h2>
+
+<input id="amount" type="number" placeholder="Amount">
+<input id="taxRate" type="number" placeholder="Tax %">
+
+<button class="calc" onclick="calcTax()">Calculate</button>
+<div class="result" id="taxResult"></div>
 </div>
 
 </div>
@@ -117,47 +188,61 @@ button{background:#00c2a8;border:none;color:#fff;border-radius:8px;cursor:pointe
 
 // NAVIGATION
 function show(id){
-document.querySelectorAll('.card').forEach(c=>c.style.display='none')
+document.querySelectorAll('.card').forEach(el=>el.style.display='none')
 document.getElementById(id).style.display='block'
 }
 
 // LOAN
-function loan(){
-let P=parseFloat(l1.value)||0
-let r=parseFloat(l2.value)/100/12
-let n=parseFloat(l3.value)*12
-if(!P||!r||!n){lr.innerText="Enter values";return}
-let m=P*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1)
-lr.innerText="Monthly: "+m.toFixed(2)
+function calcLoan(){
+let P = parseFloat(loanAmount.value);
+let r = parseFloat(loanRate.value)/100/12;
+let n = parseFloat(loanYears.value)*12;
+
+if(!P || !r || !n){
+loanResult.innerHTML="Enter valid values";
+return;
+}
+
+let m = P*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
+let total = m*n;
+
+loanResult.innerHTML = `
+Monthly Payment: ${m.toFixed(2)} <br>
+Total Paid: ${total.toFixed(2)}
+`;
 }
 
 // PROFIT
-function profit(){
-pr.innerText="Profit: "+(p2.value - p1.value)
+function calcProfit(){
+let profit = sell.value - cost.value;
+profitResult.innerHTML = "Profit: "+ profit;
 }
 
 // ROI
-function roi(){
-rr.innerText="ROI: "+(((r2.value-r1.value)/r1.value)*100).toFixed(2)+"%"
+function calcROI(){
+let roi = ((returnVal.value - invest.value)/invest.value)*100;
+roiResult.innerHTML = "ROI: "+ roi.toFixed(2)+"%";
 }
 
 // BMI
-function bmi(){
-let h=b1.value/100
-let w=b2.value
-br.innerText="BMI: "+(w/(h*h)).toFixed(1)
+function calcBMI(){
+let h = height.value/100;
+let bmi = weight.value/(h*h);
+bmiResult.innerHTML = "BMI: "+ bmi.toFixed(1);
 }
 
 // AGE
-function age(){
-let b=new Date(a1.value)
-let y=new Date().getFullYear()-b.getFullYear()
-ar.innerText="Age: "+y
+function calcAge(){
+let b = new Date(birthdate.value);
+let now = new Date();
+let age = now.getFullYear() - b.getFullYear();
+ageResult.innerHTML = "Age: "+ age;
 }
 
 // TAX
-function tax(){
-tr.innerText="Total: "+(t1.value*(1+t2.value/100)).toFixed(2)
+function calcTax(){
+let total = amount.value * (1 + taxRate.value/100);
+taxResult.innerHTML = "Total: "+ total.toFixed(2);
 }
 
 </script>
